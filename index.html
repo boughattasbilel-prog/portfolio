@@ -1,829 +1,1642 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portfolio — Your Name</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bilel BGH — Mechanical Design Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #080808;
-    --surface: #111111;
-    --border: #222222;
-    --accent: #c8f04d;
-    --accent-dim: #8aab22;
-    --text: #e8e8e0;
-    --muted: #666660;
-    --display: 'Cormorant Garamond', serif;
-    --mono: 'DM Mono', monospace;
-  }
+/* ════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════ */
+:root {
+  /* Color */
+  --bg:         #0a0a0e;
+  --surf:       #111118;
+  --surf-2:     #17171f;
+  --surf-3:     #1e1e28;
+  --border:     #222230;
+  --border-2:   #2e2e3e;
+  --accent:     #c8f04d;
+  --accent-10:  rgba(200,240,77,0.10);
+  --accent-05:  rgba(200,240,77,0.05);
+  --text:       #eeeeea;
+  --text-2:     #8a8a84;
+  --text-3:     #46464268;
+  --danger:     #e05555;
+  --danger-10:  rgba(224,85,85,0.10);
+  --success:    #4ade80;
+  --success-10: rgba(74,222,128,0.10);
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Type */
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'IBM Plex Sans', system-ui, sans-serif;
+  --mono:   'IBM Plex Mono', 'Courier New', monospace;
 
-  html { scroll-behavior: smooth; }
+  /* Spacing */
+  --nav-h:  68px;
+  --max-w:  1280px;
+  --pad:    clamp(1.5rem, 5vw, 5rem);
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.7;
-    cursor: none;
-    overflow-x: hidden;
-  }
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
 
-  /* ── CUSTOM CURSOR ── */
-  #cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease, opacity 0.15s ease;
-    transform: translate(-50%, -50%);
-  }
-  #cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid rgba(200,240,77,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), width 0.3s, height 0.3s, border-color 0.3s;
-  }
-  body:has(a:hover) #cursor-ring,
-  body:has(button:hover) #cursor-ring {
-    width: 56px; height: 56px;
-    border-color: rgba(200,240,77,0.7);
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 4rem;
-    background: rgba(8,8,8,0.8);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: var(--display);
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
+/* Noise texture overlay */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  pointer-events:none; z-index:9990;
+  opacity:0.025;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 4rem 6rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(200,240,77,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200,240,77,0.03) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-  }
-  .hero-glow {
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(200,240,77,0.08) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero-name {
-    font-family: var(--display);
-    font-size: clamp(5rem, 12vw, 14rem);
-    font-weight: 300;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 1s 0.4s forwards;
-  }
-  .hero-name em {
-    font-style: italic;
-    color: var(--accent);
-  }
-  .hero-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.7s forwards;
-  }
-  .hero-role {
-    max-width: 340px;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.8;
-    border-left: 1px solid var(--border);
-    padding-left: 1.5rem;
-  }
-  .hero-scroll {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .scroll-line {
-    width: 60px;
-    height: 1px;
-    background: var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: var(--accent);
-    animation: scrollLine 2s 1.5s infinite;
-  }
-  @keyframes scrollLine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
+a { color:inherit; text-decoration:none; }
+ul,ol { list-style:none; }
+button { font-family:inherit; }
+img { display:block; max-width:100%; }
 
-  /* ── SECTIONS ── */
-  section { padding: 8rem 4rem; }
+/* ════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════ */
+#cur-dot {
+  position:fixed; width:8px; height:8px;
+  background:var(--accent); border-radius:50%;
+  pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .12s, opacity .12s;
+}
+#cur-ring {
+  position:fixed; width:32px; height:32px;
+  border:1px solid rgba(200,240,77,.35);
+  border-radius:50%; pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .3s, height .3s, border-color .3s;
+}
+body:has(a:hover,button:hover) #cur-ring {
+  width:52px; height:52px;
+  border-color:rgba(200,240,77,.65);
+}
+body:has(a:hover,button:hover) #cur-dot {
+  transform:translate(-50%,-50%) scale(0.4);
+}
 
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    max-width: 80px;
-    height: 1px;
-    background: var(--border);
-  }
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+.nav {
+  position:fixed; inset:0 0 auto 0; height:var(--nav-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 var(--pad);
+  background:rgba(10,10,14,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  z-index:100;
+}
+.nav-logo {
+  font-family:var(--serif); font-size:1.5rem; font-weight:600;
+  letter-spacing:.03em;
+  display:flex; align-items:baseline; gap:.25rem;
+}
+.nav-logo span { color:var(--accent); }
+.nav-links { display:flex; gap:2.5rem; }
+.nav-links a {
+  font-family:var(--mono); font-size:.72rem;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-2);
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--accent); }
 
-  .section-title {
-    font-family: var(--display);
-    font-size: clamp(2.5rem, 5vw, 5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-  }
+.nav-avail {
+  display:flex; align-items:center; gap:.55rem;
+  font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-2);
+}
+.avail-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 0 3px rgba(74,222,128,.2);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 3px rgba(74,222,128,.2); }
+  50%      { box-shadow:0 0 0 6px rgba(74,222,128,.0); }
+}
 
-  /* ── ABOUT ── */
-  #about {
-    border-top: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-  }
-  .about-image {
-    position: relative;
-  }
-  .about-img-frame {
-    aspect-ratio: 3/4;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .about-img-frame::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(135deg, rgba(200,240,77,0.05) 0%, transparent 60%);
-  }
-  .about-img-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--display);
-    font-size: 8rem;
-    font-weight: 300;
-    color: var(--border);
-  }
-  .about-corner {
-    position: absolute;
-    bottom: -1.5rem;
-    right: -1.5rem;
-    width: 80px; height: 80px;
-    border-right: 1px solid var(--accent);
-    border-bottom: 1px solid var(--accent);
-  }
-  .about-content .section-label { margin-bottom: 2rem; }
-  .about-text {
-    color: var(--muted);
-    font-size: 13px;
-    margin: 2rem 0 3rem;
-    line-height: 2;
-  }
-  .about-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    border-top: 1px solid var(--border);
-    padding-top: 2rem;
-  }
-  .stat-num {
-    font-family: var(--display);
-    font-size: 3rem;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.3rem;
-  }
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+#hero {
+  min-height:100svh;
+  padding-top:var(--nav-h);
+  display:grid;
+  grid-template-rows:1fr auto;
+  position:relative; overflow:hidden;
+}
 
-  /* ── SKILLS ── */
-  #skills {
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
-    border: 1px solid var(--border);
-    margin-top: 4rem;
-    overflow: hidden;
-  }
-  .skill-item {
-    padding: 2rem 1.5rem;
-    border: none;
-    background: var(--surface);
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .skill-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-    z-index: 0;
-  }
-  .skill-item:hover::before { transform: translateY(0); }
-  .skill-item:hover .skill-name { color: var(--bg); }
-  .skill-item:hover .skill-level { color: rgba(8,8,8,0.6); }
-  .skill-name {
-    font-size: 14px;
-    color: var(--text);
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s;
-  }
-  .skill-level {
-    font-size: 11px;
-    color: var(--muted);
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s;
-    margin-top: 0.3rem;
-  }
-  .skill-dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    margin-bottom: 0.8rem;
-    position: relative;
-    z-index: 1;
-    transition: background 0.3s;
-  }
-  .skill-item:hover .skill-dot { background: var(--bg); }
+/* Engineering grid texture */
+.hero-grid {
+  position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(200,240,77,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,240,77,.025) 1px, transparent 1px);
+  background-size:72px 72px;
+}
+.hero-glow {
+  position:absolute; top:-15%; right:-10%;
+  width:55vw; height:55vw; border-radius:50%;
+  background:radial-gradient(circle, rgba(200,240,77,.07) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-glow-2 {
+  position:absolute; bottom:-20%; left:-10%;
+  width:40vw; height:40vw; border-radius:50%;
+  background:radial-gradient(circle, rgba(200,240,77,.04) 0%, transparent 60%);
+  pointer-events:none;
+}
 
-  /* ── PROJECTS ── */
-  #projects {
-    border-top: 1px solid var(--border);
-  }
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    margin-top: 4rem;
-    background: var(--border);
-  }
-  .project-card {
-    background: var(--bg);
-    padding: 3rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-    cursor: pointer;
-  }
-  .project-card:first-child {
-    grid-column: 1 / -1;
-  }
-  .project-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .project-card:hover::after { transform: scaleX(1); }
-  .project-card:hover { background: var(--surface); }
-  .project-num {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    margin-bottom: 2rem;
-  }
-  .project-title {
-    font-family: var(--display);
-    font-size: clamp(1.8rem, 3vw, 3rem);
-    font-weight: 300;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    color: var(--text);
-  }
-  .project-desc {
-    color: var(--muted);
-    font-size: 13px;
-    max-width: 480px;
-    margin-bottom: 2rem;
-    line-height: 1.8;
-  }
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .tag {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .project-card:hover .tag {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .project-arrow {
-    position: absolute;
-    top: 3rem; right: 3rem;
-    font-size: 1.5rem;
-    color: var(--muted);
-    transition: transform 0.3s, color 0.3s;
-  }
-  .project-card:hover .project-arrow {
-    transform: translate(4px, -4px);
-    color: var(--accent);
-  }
+.hero-main {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:0 var(--pad);
+  position:relative; z-index:1;
+}
 
-  /* ── CONTACT ── */
-  #contact {
-    border-top: 1px solid var(--border);
-    text-align: center;
-    padding: 10rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .contact-bg {
-    position: absolute;
-    bottom: -300px; left: 50%;
-    transform: translateX(-50%);
-    width: 800px; height: 600px;
-    background: radial-gradient(circle, rgba(200,240,77,0.06) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .contact-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 2rem;
-  }
-  .contact-title {
-    font-family: var(--display);
-    font-size: clamp(3rem, 8vw, 9rem);
-    font-weight: 300;
-    line-height: 1;
-    margin-bottom: 3rem;
-  }
-  .contact-title em { font-style: italic; color: var(--accent); }
-  .contact-sub {
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 4rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 2.5rem;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    z-index: 1;
-  }
-  .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(200,240,77,0.3);
-  }
-  .socials {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 5rem;
-    position: relative;
-    z-index: 1;
-  }
-  .social-link {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .social-link:hover { color: var(--accent); }
+.hero-eyebrow {
+  font-family:var(--mono); font-size:.72rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:2.5rem;
+  opacity:0; animation:up .7s .15s forwards;
+}
 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
+.hero-name {
+  font-family:var(--serif);
+  font-size:clamp(5.5rem, 14vw, 17rem);
+  font-weight:300; line-height:.88;
+  letter-spacing:-.02em;
+  margin-bottom:3rem;
+  opacity:0; animation:up .9s .3s forwards;
+}
+.hero-name em { font-style:italic; color:var(--accent); }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+.hero-sub {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2rem; max-width:900px;
+  opacity:0; animation:up .7s .55s forwards;
+}
+.hero-desc {
+  font-size:1rem; line-height:1.75;
+  color:var(--text-2);
+  border-left:1px solid var(--border-2);
+  padding-left:1.5rem;
+}
+.hero-role-tag {
+  display:flex; flex-wrap:wrap; gap:.5rem; align-items:flex-start;
+  align-content:flex-start;
+}
+.role-badge {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:.35rem .9rem;
+  border:1px solid var(--border-2);
+  color:var(--text-2);
+  background:var(--surf);
+}
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
+/* Hero metrics bar */
+.hero-metrics {
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:repeat(4,1fr);
+  opacity:0; animation:up .6s .75s forwards;
+  position:relative; z-index:1;
+}
+.metric {
+  padding:2rem var(--pad);
+  border-right:1px solid var(--border);
+}
+.metric:last-child { border-right:none; }
+.metric-num {
+  font-family:var(--serif); font-size:2.8rem; font-weight:600;
+  color:var(--accent); line-height:1;
+  margin-bottom:.3rem;
+}
+.metric-label {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--text-2);
+}
+.metric-sub {
+  font-size:.8rem; color:var(--text-2); margin-top:.2rem;
+}
 
-  /* Stagger */
-  .reveal:nth-child(2) { transition-delay: 0.1s; }
-  .reveal:nth-child(3) { transition-delay: 0.2s; }
-  .reveal:nth-child(4) { transition-delay: 0.3s; }
-  .reveal:nth-child(5) { transition-delay: 0.4s; }
-  .reveal:nth-child(6) { transition-delay: 0.5s; }
+/* ════════════════════════════════════════
+   SECTION SCAFFOLD
+════════════════════════════════════════ */
+.section {
+  padding:7rem var(--pad);
+  border-top:1px solid var(--border);
+  max-width:var(--max-w); margin:0 auto;
+}
+/* full-bleed sections need a wrapper */
+.section-bleed {
+  border-top:1px solid var(--border);
+}
+.section-bleed > .section { border:none; }
 
-  /* ── MOBILE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    section { padding: 5rem 1.5rem; }
-    #hero { padding: 0 1.5rem 4rem; }
-    #about { grid-template-columns: 1fr; gap: 3rem; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .project-card:first-child { grid-column: auto; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+.sec-label {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1rem;
+  display:flex; align-items:center; gap:.8rem;
+}
+.sec-label::after {
+  content:''; flex:1; max-width:60px;
+  height:1px; background:var(--border-2);
+}
+.sec-title {
+  font-family:var(--serif);
+  font-size:clamp(2.5rem, 5vw, 4.5rem);
+  font-weight:300; line-height:1.05;
+  letter-spacing:-.01em;
+  margin-bottom:4rem;
+}
+.sec-title em { font-style:italic; color:var(--accent); }
+
+/* ════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════ */
+#about-wrap { background:var(--surf); }
+
+.about-grid {
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:6rem;
+  align-items:start;
+}
+.about-body {
+  font-size:1.05rem; line-height:1.85;
+  color:var(--text-2);
+}
+.about-body strong { color:var(--text); font-weight:400; }
+.about-body p + p { margin-top:1.25rem; }
+
+.about-sidebar {}
+
+.career-list { border-top:1px solid var(--border); }
+.career-item {
+  display:grid; grid-template-columns:7rem 1fr;
+  gap:1.5rem; align-items:start;
+  padding:1.4rem 0;
+  border-bottom:1px solid var(--border);
+  transition:background .2s;
+}
+.career-year {
+  font-family:var(--mono); font-size:.72rem;
+  letter-spacing:.06em; color:var(--accent); padding-top:.15rem;
+}
+.career-title {
+  font-size:.92rem; font-weight:500; color:var(--text);
+  margin-bottom:.2rem;
+}
+.career-co {
+  font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.06em; color:var(--text-2);
+}
+.career-detail {
+  font-size:.85rem; color:var(--text-2);
+  margin-top:.4rem; line-height:1.6;
+}
+
+/* ════════════════════════════════════════
+   SKILLS
+════════════════════════════════════════ */
+.skills-groups {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; border:1px solid var(--border);
+  background:var(--border);
+  overflow:hidden;
+}
+.skill-group {
+  background:var(--surf); padding:2.5rem;
+}
+.skill-group-title {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1.8rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid var(--border);
+}
+.skill-row {
+  display:flex; flex-direction:column;
+  gap:.1rem; margin-bottom:1.2rem;
+}
+.skill-row:last-child { margin-bottom:0; }
+.skill-row-top {
+  display:flex; justify-content:space-between; align-items:baseline;
+}
+.skill-name-text {
+  font-size:.92rem; color:var(--text); font-weight:400;
+}
+.skill-lvl-text {
+  font-family:var(--mono); font-size:.65rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--text-2);
+}
+.skill-bar {
+  height:2px; background:var(--border-2);
+  border-radius:2px; overflow:hidden; margin-top:.5rem;
+}
+.skill-fill {
+  height:100%;
+  background:linear-gradient(90deg, var(--accent-10), var(--accent));
+  border-radius:2px;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .8s cubic-bezier(.16,1,.3,1);
+}
+.skill-fill.animated { transform:scaleX(1); }
+
+/* ════════════════════════════════════════
+   PROJECTS — SIDEBAR LAYOUT
+════════════════════════════════════════ */
+#projects-wrap { background:var(--bg); }
+
+.projects-layout {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:5rem;
+  align-items:start;
+  margin-top:1rem;
+}
+
+/* Sidebar nav */
+.proj-sidebar {
+  position:sticky; top:calc(var(--nav-h) + 2rem);
+}
+.proj-nav-item {
+  display:flex; align-items:flex-start;
+  gap:1rem; padding:1rem 0 1rem 1.2rem;
+  border-left:2px solid var(--border);
+  cursor:none;
+  transition:border-color .25s;
+  position:relative;
+}
+.proj-nav-item.active { border-left-color:var(--accent); }
+.proj-nav-item:hover:not(.active) { border-left-color:var(--border-2); }
+.proj-nav-num {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.1em; color:var(--text-2); padding-top:.15rem;
+  transition:color .25s;
+}
+.proj-nav-item.active .proj-nav-num { color:var(--accent); }
+.proj-nav-name {
+  font-size:.9rem; color:var(--text);
+  font-weight:400; line-height:1.3;
+  margin-bottom:.2rem; transition:color .25s;
+}
+.proj-nav-co {
+  font-family:var(--mono); font-size:.65rem;
+  letter-spacing:.06em; color:var(--text-2);
+}
+
+/* Project panels */
+.proj-panel { display:none; }
+.proj-panel.active {
+  display:block;
+  animation:fadeIn .4s ease forwards;
+}
+
+/* Project header */
+.proj-header { margin-bottom:3rem; }
+.proj-meta {
+  font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-2); margin-bottom:1rem;
+  display:flex; gap:1.5rem; align-items:center;
+}
+.proj-meta-sep {
+  width:30px; height:1px; background:var(--border-2);
+}
+.proj-title {
+  font-family:var(--serif);
+  font-size:clamp(2rem,3.5vw,3.2rem);
+  font-weight:300; line-height:1.05;
+  letter-spacing:-.01em; margin-bottom:1.5rem;
+}
+.proj-synopsis {
+  font-size:1rem; line-height:1.8;
+  color:var(--text-2); max-width:640px;
+  border-left:2px solid var(--accent);
+  padding-left:1.25rem;
+}
+
+/* Spec table */
+.proj-specs {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border);
+  border:1px solid var(--border);
+  margin:2.5rem 0;
+  overflow:hidden;
+}
+.spec-cell {
+  background:var(--surf); padding:1.1rem 1.3rem;
+}
+.spec-key {
+  font-family:var(--mono); font-size:.63rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:.35rem;
+}
+.spec-val {
+  font-size:.88rem; color:var(--text); line-height:1.45;
+}
+
+/* Section headers within project */
+.proj-section { margin:3rem 0 1.5rem; }
+.proj-section-title {
+  font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--text-2);
+  display:flex; align-items:center; gap:1rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid var(--border);
+}
+.proj-section-num {
+  font-size:.65rem; color:var(--text-3);
+}
+
+/* Challenge / Solution 2-col cards */
+.cs-pair {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1px; background:var(--border);
+  margin-bottom:1px;
+}
+.cs-card {
+  padding:1.5rem 1.75rem;
+}
+.cs-card.challenge {
+  background:var(--danger-10);
+  border-top:2px solid var(--danger);
+}
+.cs-card.solution {
+  background:var(--success-10);
+  border-top:2px solid var(--success);
+}
+.cs-badge {
+  font-family:var(--mono); font-size:.63rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  margin-bottom:.75rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.cs-badge.challenge-badge { color:var(--danger); }
+.cs-badge.solution-badge  { color:var(--success); }
+.cs-badge::before {
+  content:''; width:12px; height:1px;
+}
+.cs-badge.challenge-badge::before { background:var(--danger); }
+.cs-badge.solution-badge::before  { background:var(--success); }
+.cs-heading {
+  font-size:.92rem; font-weight:500;
+  color:var(--text); margin-bottom:.7rem; line-height:1.4;
+}
+.cs-body {
+  font-size:.88rem; line-height:1.75;
+  color:var(--text-2);
+}
+
+/* Role list */
+.role-list {
+  display:flex; flex-direction:column; gap:0;
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.role-item {
+  display:flex; gap:1.5rem; align-items:flex-start;
+  padding:1rem 1.4rem;
+  border-bottom:1px solid var(--border);
+  font-size:.9rem; line-height:1.65;
+}
+.role-item:last-child { border-bottom:none; }
+.role-icon {
+  font-family:var(--mono); font-size:.65rem;
+  letter-spacing:.08em; color:var(--accent);
+  padding-top:.18rem; flex-shrink:0; width:2rem;
+}
+.role-text { color:var(--text-2); }
+.role-text strong { color:var(--text); font-weight:500; }
+
+/* Timeline */
+.timeline { padding:1rem 0; }
+.tl-item {
+  display:grid; grid-template-columns:140px 1fr;
+  gap:2rem; align-items:start;
+  padding:.9rem 0;
+  border-bottom:1px solid var(--border);
+}
+.tl-item:last-child { border-bottom:none; }
+.tl-phase {
+  font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.06em; color:var(--accent);
+  line-height:1.4; padding-top:.1rem;
+}
+.tl-duration {
+  font-size:.65rem; color:var(--text-3);
+  margin-top:.2rem;
+}
+.tl-desc {
+  font-size:.88rem; line-height:1.65; color:var(--text-2);
+}
+.tl-desc strong { color:var(--text); font-weight:500; }
+
+/* Tags */
+.proj-tags {
+  display:flex; flex-wrap:wrap; gap:.4rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--border);
+}
+.proj-tag {
+  font-family:var(--mono); font-size:.65rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:.3rem .8rem;
+  border:1px solid var(--border-2);
+  color:var(--text-2);
+  background:var(--surf);
+  transition:border-color .2s, color .2s, background .2s;
+}
+.proj-tag:hover {
+  border-color:var(--accent);
+  color:var(--accent); background:var(--accent-05);
+}
+
+/* ════════════════════════════════════════
+   CONTACT
+════════════════════════════════════════ */
+#contact-wrap {
+  background:var(--surf);
+  border-top:1px solid var(--border);
+}
+.contact-inner {
+  max-width:var(--max-w); margin:0 auto;
+  padding:8rem var(--pad);
+  display:grid; grid-template-columns:1fr 380px;
+  gap:6rem; align-items:center;
+  position:relative;
+}
+.contact-glow {
+  position:absolute; top:-100px; left:-100px;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle, rgba(200,240,77,.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+.contact-eyebrow {
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1.2rem;
+}
+.contact-title {
+  font-family:var(--serif);
+  font-size:clamp(3rem,7vw,6rem);
+  font-weight:300; line-height:1; letter-spacing:-.01em;
+  margin-bottom:1.5rem;
+}
+.contact-title em { font-style:italic; color:var(--accent); }
+.contact-desc {
+  font-size:1rem; line-height:1.75; color:var(--text-2);
+  max-width:440px;
+}
+
+.contact-actions {
+  display:flex; flex-direction:column; gap:2.5rem;
+}
+.cta-btn {
+  display:inline-flex; align-items:center; gap:1rem;
+  padding:1.1rem 2.2rem;
+  background:var(--accent); color:var(--bg);
+  font-family:var(--mono); font-size:.75rem;
+  letter-spacing:.14em; text-transform:uppercase;
+  font-weight:500;
+  transition:transform .2s, box-shadow .2s;
+  width:fit-content;
+}
+.cta-btn:hover {
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(200,240,77,.25);
+}
+.socials-list {
+  display:flex; flex-direction:column; gap:.8rem;
+}
+.social-item {
+  display:flex; align-items:center; gap:1rem;
+  font-family:var(--mono); font-size:.72rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-2); padding:.6rem 0;
+  border-bottom:1px solid var(--border);
+  transition:color .2s;
+}
+.social-item:last-child { border-bottom:none; }
+.social-item:hover { color:var(--accent); }
+.social-arr { color:var(--text-3); transition:color .2s; }
+.social-item:hover .social-arr { color:var(--accent); }
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer {
+  border-top:1px solid var(--border);
+  padding:1.5rem var(--pad);
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:var(--mono); font-size:.65rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-2);
+  max-width:var(--max-w); margin:0 auto;
+}
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+.reveal {
+  opacity:0; transform:translateY(36px);
+  transition:opacity .75s cubic-bezier(.16,1,.3,1),
+             transform .75s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity:1; transform:none; }
+.reveal-d1 { transition-delay:.08s; }
+.reveal-d2 { transition-delay:.16s; }
+.reveal-d3 { transition-delay:.24s; }
+.reveal-d4 { transition-delay:.32s; }
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes up {
+  from { opacity:0; transform:translateY(32px); }
+  to   { opacity:1; transform:none; }
+}
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:none; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width:1024px) {
+  .projects-layout { grid-template-columns:1fr; }
+  .proj-sidebar {
+    position:static;
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:1px; background:var(--border);
+    border:1px solid var(--border);
+    margin-bottom:3rem;
   }
+  .proj-nav-item {
+    border-left:none; border-top:2px solid var(--border);
+    padding:1rem 1.2rem;
+  }
+  .proj-nav-item.active { border-top-color:var(--accent); background:var(--surf); }
+  .proj-specs { grid-template-columns:repeat(2,1fr); }
+  .cs-pair { grid-template-columns:1fr; }
+  .skills-groups { grid-template-columns:1fr; }
+  .about-grid { grid-template-columns:1fr; gap:3rem; }
+  .contact-inner { grid-template-columns:1fr; gap:3rem; }
+  .hero-sub { grid-template-columns:1fr; }
+}
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .nav-avail { display:none; }
+  .hero-metrics { grid-template-columns:repeat(2,1fr); }
+  .proj-specs { grid-template-columns:1fr; }
+  .tl-item { grid-template-columns:90px 1fr; gap:1rem; }
+}
+@media (max-width:480px) {
+  .hero-metrics { grid-template-columns:1fr; }
+  .proj-sidebar { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 
 <!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
 
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">YN.</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<!-- ═══════════════════════════════════════
+     NAV
+═══════════════════════════════════════ -->
+<header class="nav">
+  <a href="#hero" class="nav-logo">B<span>.</span>BGH</a>
+  <nav class="nav-links">
+    <a href="#about-wrap">About</a>
+    <a href="#skills-wrap">Skills</a>
+    <a href="#projects-wrap">Projects</a>
+    <a href="#contact-wrap">Contact</a>
+  </nav>
+  <div class="nav-avail">
+    <div class="avail-dot"></div>
+    Available now
+  </div>
+</header>
 
-<!-- HERO -->
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
 <section id="hero">
-  <div class="hero-grid-bg"></div>
+  <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <p class="hero-eyebrow">Available for opportunities</p>
-  <h1 class="hero-name">Your<br><em>Name</em></h1>
-  <div class="hero-bottom">
-    <p class="hero-role">
-      Full-Stack Developer & UI Designer.<br>
-      I craft digital experiences that are fast, accessible, and beautifully intentional.
-    </p>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      Scroll to explore
-    </div>
-  </div>
-</section>
+  <div class="hero-glow-2"></div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-image reveal">
-    <div class="about-img-frame">
-      <div class="about-img-placeholder">YN</div>
-    </div>
-    <div class="about-corner"></div>
-  </div>
-  <div class="about-content">
-    <p class="section-label reveal">01 — About me</p>
-    <h2 class="section-title reveal">
-      Turning ideas<br>into <em style="font-style:italic;color:var(--accent)">experiences</em>
-    </h2>
-    <p class="about-text reveal">
-      I'm a developer based in [Your City] with a passion for building things 
-      that live on the internet. I care deeply about code quality, design systems, 
-      and the intersection of technology and creativity. When I'm not writing code, 
-      I'm probably exploring new frameworks or obsessing over typography.
-    </p>
-    <div class="about-stats reveal">
-      <div>
-        <div class="stat-num">3+</div>
-        <div class="stat-label">Years exp.</div>
-      </div>
-      <div>
-        <div class="stat-num">20+</div>
-        <div class="stat-label">Projects</div>
-      </div>
-      <div>
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Clients</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <p class="section-label reveal">02 — Expertise</p>
-  <h2 class="section-title reveal">What I <em style="font-style:italic">work</em><br>with</h2>
-  <div class="skills-grid">
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">React / Next.js</div>
-      <div class="skill-level">Frontend</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">TypeScript</div>
-      <div class="skill-level">Language</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Node.js</div>
-      <div class="skill-level">Backend</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Python</div>
-      <div class="skill-level">Backend</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">PostgreSQL</div>
-      <div class="skill-level">Database</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Figma</div>
-      <div class="skill-level">Design</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Docker</div>
-      <div class="skill-level">DevOps</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">AWS / GCP</div>
-      <div class="skill-level">Cloud</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">GraphQL</div>
-      <div class="skill-level">API</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Tailwind CSS</div>
-      <div class="skill-level">Styling</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Git / GitHub</div>
-      <div class="skill-level">Version Control</div>
-    </div>
-    <div class="skill-item reveal">
-      <div class="skill-dot"></div>
-      <div class="skill-name">Framer Motion</div>
-      <div class="skill-level">Animation</div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label reveal">03 — Selected Work</p>
-  <h2 class="section-title reveal">Recent<br><em style="font-style:italic">projects</em></h2>
-  <div class="projects-grid reveal">
-
-    <div class="project-card">
-      <div class="project-num">01 / 2024</div>
-      <h3 class="project-title">Project Alpha —<br>E-commerce Platform</h3>
-      <p class="project-desc">
-        A full-stack e-commerce solution with real-time inventory, 
-        dynamic pricing, and a seamless checkout flow built for scale.
+  <div class="hero-main">
+    <p class="hero-eyebrow">Mechanical Design Engineer — Automotive &amp; Industrial</p>
+    <h1 class="hero-name">Bilel<br><em>BGH.</em></h1>
+    <div class="hero-sub">
+      <p class="hero-desc">
+        Connector and plastic part design specialist with 5+ years in automotive tier-1.
+        End-to-end ownership from GD&amp;T tolerance stack-up, injection mold feasibility,
+        and DFMEA — through tooling trials, testing, and PPAP submission.
+        Core tools: SolidWorks · NX · CREO · CATIA.
       </p>
-      <div class="project-tags">
-        <span class="tag">Next.js</span>
-        <span class="tag">Stripe</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Tailwind</span>
+      <div class="hero-role-tag">
+        <span class="role-badge">GD&amp;T / Tolerance Stack</span>
+        <span class="role-badge">Injection Molding DFM</span>
+        <span class="role-badge">DFMEA / PPAP</span>
+        <span class="role-badge">Connector Design</span>
+        <span class="role-badge">IP67 · USCAR · LV214</span>
+        <span class="role-badge">ISO 6722 · IEC 60664</span>
       </div>
-      <span class="project-arrow">↗</span>
     </div>
+  </div>
 
-    <div class="project-card">
-      <div class="project-num">02 / 2024</div>
-      <h3 class="project-title">Dashboard SaaS</h3>
-      <p class="project-desc">
-        Real-time analytics dashboard with interactive charts, 
-        team management, and customizable widgets.
-      </p>
-      <div class="project-tags">
-        <span class="tag">React</span>
-        <span class="tag">D3.js</span>
-        <span class="tag">Node.js</span>
-      </div>
-      <span class="project-arrow">↗</span>
+  <div class="hero-metrics">
+    <div class="metric">
+      <div class="metric-num">5+</div>
+      <div class="metric-label">Years experience</div>
+      <div class="metric-sub">Automotive tier-1</div>
     </div>
-
-    <div class="project-card">
-      <div class="project-num">03 / 2023</div>
-      <h3 class="project-title">Mobile App</h3>
-      <p class="project-desc">
-        Cross-platform mobile app connecting communities 
-        with a focus on accessibility and offline-first UX.
-      </p>
-      <div class="project-tags">
-        <span class="tag">React Native</span>
-        <span class="tag">Firebase</span>
-        <span class="tag">Redux</span>
-      </div>
-      <span class="project-arrow">↗</span>
+    <div class="metric">
+      <div class="metric-num">4</div>
+      <div class="metric-label">Major projects</div>
+      <div class="metric-sub">Concept → production</div>
     </div>
-
+    <div class="metric">
+      <div class="metric-num">−30%</div>
+      <div class="metric-label">Cost-out achieved</div>
+      <div class="metric-sub">LCP → PBT transition</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">2M+</div>
+      <div class="metric-label">Units / year</div>
+      <div class="metric-sub">Mass-production validated</div>
+    </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-bg"></div>
-  <p class="contact-eyebrow reveal">04 — Get in Touch</p>
-  <h2 class="contact-title reveal">Let's work<br><em>together</em></h2>
-  <p class="contact-sub reveal">
-    Have a project in mind? I'm always open to discussing new opportunities and interesting ideas.
-  </p>
-  <a href="mailto:your@email.com" class="cta-btn reveal">
-    Say hello ↗
-  </a>
-  <div class="socials reveal">
-    <a href="#" class="social-link">↗ GitHub</a>
-    <a href="#" class="social-link">↗ LinkedIn</a>
-    <a href="#" class="social-link">↗ Twitter</a>
-    <a href="#" class="social-link">↗ Dribbble</a>
-  </div>
-</section>
+<!-- ═══════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════ -->
+<div id="about-wrap" class="section-bleed" style="background:var(--surf);">
+  <div class="section">
+    <p class="sec-label reveal">01 — About me</p>
+    <h2 class="sec-title reveal">Engineering<br>from <em>spec to part</em></h2>
 
-<!-- FOOTER -->
+    <div class="about-grid reveal">
+      <div class="about-body">
+        <p>
+          I design the parts that live inside vehicles — the connectors, housings, and
+          plastic assemblies that must survive −40 °C winter starts and 150 °C engine bays,
+          vibration, humidity, and 50,000 mate/unmate cycles without a single point of failure.
+        </p>
+        <p>
+          At <strong>Amaichy Innovation</strong>, I led the Y-Lock V3 and Y-Quad programs
+          from blank page through PPAP — owning GD&amp;T strategy, tolerance stack-up calculations,
+          injection mold DFM reviews, DFMEA facilitation, and supplier tooling coordination.
+          I fixed a 5% PBT shrinkage issue that was eating the stack-up budget, redesigned a
+          snap-fit that failed its first 50 N pull-force test, and drove a material transition
+          from LCP to PBT-GF30 that delivered a 29.8% unit cost reduction.
+        </p>
+        <p>
+          At <strong>Molex Automotive Division</strong>, I designed Mini-Fakra RF connectors
+          for 2 M+ units/year — controlling 50 Ω impedance to ±2.8 Ω through mold tolerance
+          optimization and 100% in-line TDR verification.
+        </p>
+        <p>
+          My approach: calculate it first, prototype smart, validate relentlessly. I document
+          trade-offs clearly and move designs to production without surprises.
+        </p>
+      </div>
+
+      <div class="about-sidebar">
+        <div class="career-list reveal">
+          <div class="career-item">
+            <div class="career-year">2024 →</div>
+            <div>
+              <div class="career-title">Technical Interview Preparation</div>
+              <div class="career-co">Advanced GD&amp;T · Danfoss · Wilo · Verkor</div>
+              <div class="career-detail">Built MX-Dash learning dashboard; intensive tolerance analysis and DFM deep-dives.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2021 – 2023</div>
+            <div>
+              <div class="career-title">Senior Design Engineer</div>
+              <div class="career-co">Amaichy Innovation</div>
+              <div class="career-detail">Led Y-Lock V3 and Y-Quad from concept to 500 K+ units/year. 99.8% reliability validated.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2019 – 2021</div>
+            <div>
+              <div class="career-title">Design Engineer</div>
+              <div class="career-co">Molex — Automotive Division</div>
+              <div class="career-detail">Mini-Fakra RF connector. 2 M units/year. 30% cost reduction via DFM.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2018 – 2019</div>
+            <div>
+              <div class="career-title">Junior Design Engineer</div>
+              <div class="career-co">Automotive OEM / Supplier</div>
+              <div class="career-detail">Foundation in CAD modeling, technical drawing, GD&amp;T application, connector DFM.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SKILLS
+═══════════════════════════════════════ -->
+<div id="skills-wrap" class="section-bleed">
+  <div class="section">
+    <p class="sec-label reveal">02 — Technical expertise</p>
+    <h2 class="sec-title reveal">Skills &amp;<br><em>tools</em></h2>
+
+    <div class="skills-groups reveal">
+
+      <!-- Group 1: CAD & Software -->
+      <div class="skill-group">
+        <div class="skill-group-title">CAD &amp; Software</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">SolidWorks</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">CATIA V5 / V6</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">NX Siemens</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">PTC CREO</span>
+            <span class="skill-lvl-text">Proficient</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Moldflow / FEA</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">HFSS (EM Simulation)</span>
+            <span class="skill-lvl-text">Proficient</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:68%"></div></div>
+        </div>
+      </div>
+
+      <!-- Group 2: Engineering Methods -->
+      <div class="skill-group">
+        <div class="skill-group-title">Engineering Methods</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">GD&amp;T / Tolerance Stack-up</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Design for Manufacturability</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:93%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">DFMEA / AMDEC</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Injection Molding Design</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Thermal / Structural FEA</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:83%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">VAVE / Cost-Out Studies</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:86%"></div></div>
+        </div>
+      </div>
+
+      <!-- Group 3: Standards & Processes -->
+      <div class="skill-group">
+        <div class="skill-group-title">Standards &amp; Processes</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">PPAP / APQP</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Creepage &amp; Clearance (IEC 60664)</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Technical Drawing (ISO 13715)</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:94%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">USCAR / LV214 / ISO 6722</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Material Eng. (PBT / LCP / Bronze)</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:87%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">MSA / Process Capability (Cpk)</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROJECTS
+═══════════════════════════════════════ -->
+<div id="projects-wrap" class="section-bleed">
+  <div class="section">
+    <p class="sec-label reveal">03 — Selected work</p>
+    <h2 class="sec-title reveal">Engineering<br><em>projects</em></h2>
+
+    <div class="projects-layout">
+
+      <!-- ─── SIDEBAR NAV ─── -->
+      <nav class="proj-sidebar reveal">
+        <div class="proj-nav-item active" onclick="switchProj('ylock',this)">
+          <div>
+            <div class="proj-nav-num">01</div>
+          </div>
+          <div>
+            <div class="proj-nav-name">Y-Lock V3</div>
+            <div class="proj-nav-co">Amaichy Innovation</div>
+          </div>
+        </div>
+        <div class="proj-nav-item" onclick="switchProj('yquad',this)">
+          <div>
+            <div class="proj-nav-num">02</div>
+          </div>
+          <div>
+            <div class="proj-nav-name">Y-Quad</div>
+            <div class="proj-nav-co">Amaichy Innovation</div>
+          </div>
+        </div>
+        <div class="proj-nav-item" onclick="switchProj('minifakra',this)">
+          <div>
+            <div class="proj-nav-num">03</div>
+          </div>
+          <div>
+            <div class="proj-nav-name">Mini-Fakra</div>
+            <div class="proj-nav-co">Molex Automotive</div>
+          </div>
+        </div>
+        <div class="proj-nav-item" onclick="switchProj('mxdash',this)">
+          <div>
+            <div class="proj-nav-num">04</div>
+          </div>
+          <div>
+            <div class="proj-nav-name">MX-Dash</div>
+            <div class="proj-nav-co">Personal project</div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ─── PROJECT PANELS ─── -->
+      <div class="proj-content">
+
+        <!-- ══ Y-LOCK V3 ══ -->
+        <div class="proj-panel active" data-project="ylock">
+          <div class="proj-header">
+            <div class="proj-meta">
+              <span>Amaichy Innovation</span>
+              <div class="proj-meta-sep"></div>
+              <span>2021 – 2022</span>
+              <div class="proj-meta-sep"></div>
+              <span>High-Power Connector</span>
+            </div>
+            <h3 class="proj-title">Y-Lock V3 —<br>Next-Gen 48 V Automotive Connector</h3>
+            <p class="proj-synopsis">
+              Led design from concept feasibility through PPAP at 500 K+ units/year.
+              Fixed a 5% PBT shrinkage issue consuming the stack-up budget, resolved a
+              ±0.15 mm interference at the contact seating surface, and redesigned the snap-fit
+              after the first iteration failed a 50 N pull-force test.
+              Delivered &lt;2% defect rate at 80 units/min production throughput.
+            </p>
+          </div>
+
+          <!-- Specs -->
+          <div class="proj-specs">
+            <div class="spec-cell"><div class="spec-key">Standard</div><div class="spec-val">ISO 6722 / DIN 72585</div></div>
+            <div class="spec-cell"><div class="spec-key">Housing Material</div><div class="spec-val">PBT-GF30 — wall 2.4 ±0.1 mm</div></div>
+            <div class="spec-cell"><div class="spec-key">Contact</div><div class="spec-val">Phosphor Bronze, Au 0.5 µm</div></div>
+            <div class="spec-cell"><div class="spec-key">Current Rating</div><div class="spec-val">150 A per contact</div></div>
+            <div class="spec-cell"><div class="spec-key">Voltage</div><div class="spec-val">48 V DC / 60 V transient</div></div>
+            <div class="spec-cell"><div class="spec-key">Temp. Range</div><div class="spec-val">−40 °C → +150 °C</div></div>
+            <div class="spec-cell"><div class="spec-key">IP Rating</div><div class="spec-val">IP67 (mated)</div></div>
+            <div class="spec-cell"><div class="spec-key">Production Scale</div><div class="spec-val">500 K+ units / year</div></div>
+          </div>
+
+          <!-- Challenges & Solutions -->
+          <div class="proj-section">
+            <div class="proj-section-title">
+              <span class="proj-section-num">—</span>
+              Engineering Challenges &amp; Solutions
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 1</div>
+              <div class="cs-heading">High current + compact form factor</div>
+              <div class="cs-body">Contact temperature exceeded 150 °C under rated load due to current concentration. Localized heating caused creep deformation in the PBT housing around the contact zone. Insufficient thermal path to ambient.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Multi-contact architecture + copper inlay</div>
+              <div class="cs-body">Redesigned to symmetric multi-contact layout for even current distribution. Added copper inlay to conduct heat away. Introduced 0.5 mm air gap with TIM between contact and polymer. Reduced contact temperature to 95 °C under rated load.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 2</div>
+              <div class="cs-heading">PBT thermal cycling failure (−40 → +150 °C, 500 cycles)</div>
+              <div class="cs-body">Differential expansion between PBT and metal contacts accumulated 3.2 mm cumulative displacement over 500 cycles. Original LCP housing was brittle below −20 °C. Looseness and contact wear measured at 250 cycles. 5% shrinkage scatter on contact bore diameter consumed the entire ±0.15 mm stack-up budget.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">LCP → PBT-GF30 transition + stress-relief ribs + pack-hold optimization</div>
+              <div class="cs-body">Reduced wall thickness from 2.8 mm to 2.4 mm to lower CTE mismatch stress. Added stress-relief ribs at critical junctions. Implemented elastic retention clips. Optimized pack-hold profile — shrinkage scatter reduced to &lt;1%. Passed IEC 61076-2-109 thermal cycling 500 cycles.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 3</div>
+              <div class="cs-heading">Injection molding at 500 K/year volume</div>
+              <div class="cs-body">Initial design had undercuts requiring mechanical mold extraction — cycle time 65+ s. Porosity appeared in thin-wall sections. First tooling trial showed 8% defect rate. Snap-fit failed 50 N pull-force test at first iteration due to insufficient deflection geometry.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Parting line redesign + Moldflow + conformal cooling</div>
+              <div class="cs-body">Eliminated undercuts via smart parting line placement. Optimized gate locations in Moldflow CAE. Implemented conformal cooling channels (Ø 3.5 mm). Redesigned snap-fit with 15% additional deflection clearance. Reduced cycle time to &lt;45 s. Achieved 80 units/min at &lt;2% defect rate.</div>
+            </div>
+          </div>
+
+          <!-- Role -->
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Role &amp; Responsibilities</div>
+          </div>
+          <div class="role-list">
+            <div class="role-item"><div class="role-icon">CAD</div><div class="role-text"><strong>3D CAD &amp; drawings:</strong> SolidWorks modeling, technical drawings per ISO 13715, GD&amp;T per ASME Y14.5. Managed revisions through ECO process.</div></div>
+            <div class="role-item"><div class="role-icon">TOL</div><div class="role-text"><strong>Tolerance stack-up:</strong> Worst-case and statistical (RSS) analysis. Critical dims: ±0.1 mm on contact seating surface, ±0.05 mm on pin insertion depth.</div></div>
+            <div class="role-item"><div class="role-icon">DFM</div><div class="role-text"><strong>Mold feasibility &amp; DFM:</strong> Collaborated with Yingde tooling supplier. Draft angles 2.5° min, gate design to avoid weld lines on contact areas, conformal cooling layout.</div></div>
+            <div class="role-item"><div class="role-icon">FME</div><div class="role-text"><strong>DFMEA (AMDEC):</strong> Facilitated 3 sessions. Identified 12 failure modes — 8 mitigated by design change, 4 by process control.</div></div>
+            <div class="role-item"><div class="role-icon">VAL</div><div class="role-text"><strong>Validation:</strong> Supervised thermal cycling, electrical testing, creepage/clearance per IEC 60664-1, vibration per ISO 16750-3 Cat. 3H.</div></div>
+            <div class="role-item"><div class="role-icon">PPA</div><div class="role-text"><strong>PPAP submission:</strong> All critical characteristics Cpk ≥ 1.33. Design records, material test data, dimensional reports, process capability studies.</div></div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Project Timeline</div>
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div><div class="tl-phase">Concept &amp; Feasibility</div><div class="tl-duration">6 weeks</div></div>
+              <div class="tl-desc">Design concepts, material selection, competitive benchmarking vs. Y-Lock V2, stakeholder approval, feasibility gate.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Detailed Design</div><div class="tl-duration">10 weeks</div></div>
+              <div class="tl-desc">3D CAD, GD&amp;T drawings, tolerance stack-up analysis, Moldflow simulation, DFMEA completion.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Mold Build &amp; Tooling</div><div class="tl-duration">14 weeks</div></div>
+              <div class="tl-desc">Mold fabrication, process trials, first-article manufacturing, dimensional verification, design corrections.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Testing &amp; Validation</div><div class="tl-duration">8 weeks</div></div>
+              <div class="tl-desc">Electrical, thermal cycling, vibration, creepage/clearance, reliability. ISO 16750-3 / IEC 61076-2-109.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Production Ramp</div><div class="tl-duration">6+ weeks</div></div>
+              <div class="tl-desc">Cpk validation, PPAP submission, assembly training, supply chain stabilization at 500 K/year.</div>
+            </div>
+          </div>
+
+          <div class="proj-tags">
+            <span class="proj-tag">GD&amp;T Stack-up</span>
+            <span class="proj-tag">Moldflow CAE</span>
+            <span class="proj-tag">Thermal FEA</span>
+            <span class="proj-tag">SolidWorks</span>
+            <span class="proj-tag">DFMEA / AMDEC</span>
+            <span class="proj-tag">PBT-GF30</span>
+            <span class="proj-tag">PPAP</span>
+            <span class="proj-tag">ISO 6722</span>
+            <span class="proj-tag">IP67</span>
+          </div>
+        </div><!-- /ylock -->
+
+        <!-- ══ Y-QUAD ══ -->
+        <div class="proj-panel" data-project="yquad">
+          <div class="proj-header">
+            <div class="proj-meta">
+              <span>Amaichy Innovation</span>
+              <div class="proj-meta-sep"></div>
+              <span>2022 – 2023</span>
+              <div class="proj-meta-sep"></div>
+              <span>Battery Interconnect</span>
+            </div>
+            <h3 class="proj-title">Y-Quad —<br>Four-Contact 200 A Battery Interconnect</h3>
+            <p class="proj-synopsis">
+              Four-contact battery module connector for 48 V / 12 V hybrid platforms.
+              Managed the LCP → PBT material transition that cut unit cost by 29.8% (€4.20 → €2.95)
+              while meeting all thermal cycling requirements.
+              Resolved fretting corrosion on aluminum contacts by increasing spring force from 15 N to 22 N.
+              Calculated creepage distance to 4 mm minimum per IEC 60664-1 Pollution Degree 3.
+            </p>
+          </div>
+
+          <div class="proj-specs">
+            <div class="spec-cell"><div class="spec-key">Standard</div><div class="spec-val">ISO 6722-2, HV Battery Safety</div></div>
+            <div class="spec-cell"><div class="spec-key">Housing</div><div class="spec-val">PBT (transitioned from LCP)</div></div>
+            <div class="spec-cell"><div class="spec-key">Contacts</div><div class="spec-val">Al 6061-T6, Sn-plated 2 µm</div></div>
+            <div class="spec-cell"><div class="spec-key">Total Current</div><div class="spec-val">200 A (4×50 A parallel)</div></div>
+            <div class="spec-cell"><div class="spec-key">Creepage</div><div class="spec-val">4 mm min — IEC 60664-1 PD3</div></div>
+            <div class="spec-cell"><div class="spec-key">Form Factor</div><div class="spec-val">60 × 45 × 30 mm</div></div>
+            <div class="spec-cell"><div class="spec-key">Production Scale</div><div class="spec-val">50 K → 200 K units / year</div></div>
+            <div class="spec-cell"><div class="spec-key">Cost-out Achieved</div><div class="spec-val">−29.8% vs. LCP baseline</div></div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Engineering Challenges &amp; Solutions</div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 1</div>
+              <div class="cs-heading">LCP-to-PBT material transition — shrinkage &amp; flow mismatch</div>
+              <div class="cs-body">PBT has lower melt flow (MFR 8 vs. 15 for LCP) and higher shrinkage (1.8% vs. 0.8%). First PBT shots showed 5% shrinkage variation on contact bore diameter — directly consuming the entire ±0.15 mm stack-up budget. Wall geometry optimized for LCP was incompatible with PBT fill.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Wall thickness + pack-hold optimization → €2.95/unit (−29.8%)</div>
+              <div class="cs-body">Increased nominal wall from 1.6 mm to 2.0 mm to reduce shear rate and shrinkage scatter. Added cooling ribs. Optimized cavity pressure pack-hold profile via injection process study. Shrinkage scatter reduced to &lt;0.8%. Final cost: €2.95/unit. Passed IEC 61076 thermal cycling.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 2</div>
+              <div class="cs-heading">Fretting corrosion on Al contacts — 2.1% resistance drift at 10 K cycles</div>
+              <div class="cs-body">2.1% contact resistance drift measured after 10 K mate/unmate cycles in humid environment. Root cause: spring force of 15 N insufficient to prevent micro-slip at contact interface under ISO 16750-3 vibration. Confirmed by SEM analysis of contact surfaces showing micro-plowing patterns.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Spring force +7 N + selective Au plating + parylene-C coating</div>
+              <div class="cs-body">Increased spring force from 15 N to 22 N. Applied selective Au plating 0.3 µm on contact tips with silver-filled underlayer for lubricity. Added parylene-C conformal coating (10 µm) on spring elements. Result: &lt;0.5% resistance drift over 50 K cycles in salt-fog test.</div>
+            </div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Role &amp; Responsibilities</div>
+          </div>
+          <div class="role-list">
+            <div class="role-item"><div class="role-icon">MAT</div><div class="role-text"><strong>Material transition study:</strong> Full LCP → PBT evaluation — flow, shrinkage, CTE, thermal cycling performance. Validated thermal/mechanical performance against OEM specs.</div></div>
+            <div class="role-item"><div class="role-icon">TOL</div><div class="role-text"><strong>4-contact assembly stack-up:</strong> ±0.1 mm contact alignment guaranteed across 4-position layout. Worst-case and RSS methods both verified.</div></div>
+            <div class="role-item"><div class="role-icon">FME</div><div class="role-text"><strong>DFMEA:</strong> 8 critical failure modes identified. Spring force, contact plating, housing wall thickness identified as key control parameters.</div></div>
+            <div class="role-item"><div class="role-icon">MOL</div><div class="role-text"><strong>Injection process optimization:</strong> Gate locations, cooling channels, cycle time &lt;50 s. Pack-hold profile verified via cavity pressure sensors.</div></div>
+            <div class="role-item"><div class="role-icon">VAL</div><div class="role-text"><strong>Testing supervision:</strong> Contact resistance, dielectric strength, 50 K cycle reliability, thermal cycling validation (IEC 61076).</div></div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Project Timeline</div>
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div><div class="tl-phase">Concept</div><div class="tl-duration">4 weeks</div></div>
+              <div class="tl-desc">Initial design, material selection trade study, feasibility gate review.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Design Development</div><div class="tl-duration">8 weeks</div></div>
+              <div class="tl-desc">Detailed CAD, tolerance stack-up, DFMEA, material transition study with supplier.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Tooling &amp; Mold Trials</div><div class="tl-duration">12 weeks</div></div>
+              <div class="tl-desc">Mold build, T1/T2/T3 trials, process optimization, first-article dimensional inspection.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Testing &amp; Validation</div><div class="tl-duration">10 weeks</div></div>
+              <div class="tl-desc">ALT, thermal cycling, 50 K cycle fretting test, salt-fog, vibration reliability.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Pre-Series Production</div><div class="tl-duration">6 weeks</div></div>
+              <div class="tl-desc">50 K unit ramp, PPAP completion, process capability Cpk ≥ 1.33 achieved.</div>
+            </div>
+          </div>
+
+          <div class="proj-tags">
+            <span class="proj-tag">PBT Material Transition</span>
+            <span class="proj-tag">Contact Design</span>
+            <span class="proj-tag">GD&amp;T Stack-up</span>
+            <span class="proj-tag">Fretting Analysis</span>
+            <span class="proj-tag">IEC 60664-1</span>
+            <span class="proj-tag">Cost-out −29.8%</span>
+            <span class="proj-tag">DFMEA</span>
+            <span class="proj-tag">Moldflow</span>
+          </div>
+        </div><!-- /yquad -->
+
+        <!-- ══ MINI-FAKRA ══ -->
+        <div class="proj-panel" data-project="minifakra">
+          <div class="proj-header">
+            <div class="proj-meta">
+              <span>Molex — Automotive Division</span>
+              <div class="proj-meta-sep"></div>
+              <span>2019 – 2020</span>
+              <div class="proj-meta-sep"></div>
+              <span>RF Coaxial Connector</span>
+            </div>
+            <h3 class="proj-title">Mini-Fakra —<br>RF Coaxial Connector, 2 M Units / Year</h3>
+            <p class="proj-synopsis">
+              Compact RF coaxial connector for automotive antenna distribution (DAB, GPS, 4G/5G).
+              Controlled 50 Ω impedance to ±2.8 Ω (spec: ±3 Ω) by tightening mold tolerance
+              from ±0.2 mm to ±0.05 mm on PTFE insulator bore. Added 100% in-line TDR verification.
+              Designed pneumatic crimp fixture: throughput 40 → 120 units/min.
+            </p>
+          </div>
+
+          <div class="proj-specs">
+            <div class="spec-cell"><div class="spec-key">Standard</div><div class="spec-val">ISO 14405-2 / Fakra Perf.</div></div>
+            <div class="spec-cell"><div class="spec-key">Impedance (achieved)</div><div class="spec-val">50 Ω ±2.8 Ω (spec ±3 Ω)</div></div>
+            <div class="spec-cell"><div class="spec-key">Frequency Range</div><div class="spec-val">DC → 6 GHz</div></div>
+            <div class="spec-cell"><div class="spec-key">Insertion Loss</div><div class="spec-val">&lt;0.15 dB @ 2 GHz</div></div>
+            <div class="spec-cell"><div class="spec-key">Return Loss</div><div class="spec-val">&gt;20 dB (S11)</div></div>
+            <div class="spec-cell"><div class="spec-key">Insulator Material</div><div class="spec-val">PTFE — low loss, temp stable</div></div>
+            <div class="spec-cell"><div class="spec-key">IP Rating</div><div class="spec-val">IP67 (mated)</div></div>
+            <div class="spec-cell"><div class="spec-key">Production Volume</div><div class="spec-val">2 M+ units / year</div></div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Engineering Challenges &amp; Solutions</div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 1</div>
+              <div class="cs-heading">Impedance control — ±8 Ω scatter on PTFE insulator</div>
+              <div class="cs-body">±0.2 mm PTFE insulator thickness variation directly shifts characteristic impedance off 50 Ω. Prototypes showed ±8 Ω scatter — well outside the ±3 Ω specification. Root cause: cavity pressure variability during fill causing inconsistent pack-hold on PTFE.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Mold tolerance ±0.05 mm + pack-hold profile + 100% TDR sort</div>
+              <div class="cs-body">Tightened mold tolerance on insulator inner diameter from ±0.2 mm to ±0.05 mm. Implemented optimized pack-hold profile via CAE cavity pressure analysis. Added 100% in-line TDR impedance measurement with automatic sorter. Final result: ±2.8 Ω — within spec, zero escapes.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Challenge 2</div>
+              <div class="cs-heading">Assembly throughput — 40 units/min vs. 100+ required</div>
+              <div class="cs-body">Manual center-pin crimping capped at 40 units/min. Required 100+ units/min for 2 M annual volume. Contact resistance drift in 1.5% of manually crimped units due to inconsistent crimp force — high process variance unacceptable at volume.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Pneumatic crimp fixture + machine-vision verification → 120 units/min</div>
+              <div class="cs-body">Designed pneumatic crimp tool integration fixture with machine-vision quality gate verifying crimp geometry after each cycle. Implemented automated cable stripping and positioning. Achieved 120 units/min at zero defect rate in pilot production — 3× manual throughput.</div>
+            </div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Role &amp; Responsibilities</div>
+          </div>
+          <div class="role-list">
+            <div class="role-item"><div class="role-icon">RF</div><div class="role-text"><strong>RF geometry design:</strong> Connector geometry with impedance control as primary constraint. Center pin, PTFE insulator, and outer shield coaxially optimized for 50 Ω.</div></div>
+            <div class="role-item"><div class="role-icon">SIM</div><div class="role-text"><strong>HFSS electromagnetic simulation:</strong> Verified 50 Ω characteristic impedance and predicted S-parameters (S11/S21) across DC to 6 GHz. Iterated geometry until insertion loss &lt;0.15 dB at 2 GHz.</div></div>
+            <div class="role-item"><div class="role-icon">TOL</div><div class="role-text"><strong>Tolerance stack-up:</strong> PTFE insulator bore tolerance analysis directly linked to impedance delta. Reduced mold tolerance from ±0.2 mm to ±0.05 mm — justified by production cost vs. yield improvement calculation.</div></div>
+            <div class="role-item"><div class="role-icon">ASM</div><div class="role-text"><strong>Assembly process:</strong> Designed pneumatic crimp fixture and in-line TDR verification gate. Automated cable stripping and positioning system.</div></div>
+            <div class="role-item"><div class="role-icon">VOL</div><div class="role-text"><strong>Volume ramp:</strong> Supported high-volume manufacturing ramp from 0 to 2 M units/year. Process capability Cpk ≥ 1.33 on all critical characteristics.</div></div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Project Timeline</div>
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div><div class="tl-phase">Concept</div><div class="tl-duration">3 weeks</div></div>
+              <div class="tl-desc">RF design concept, impedance simulation, baseline geometry definition.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Design &amp; Simulation</div><div class="tl-duration">8 weeks</div></div>
+              <div class="tl-desc">HFSS EM simulation, PTFE tolerance stack-up, DFM optimization, mold tolerance spec.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Mold &amp; Assembly Process</div><div class="tl-duration">10 weeks</div></div>
+              <div class="tl-desc">Mold build with ±0.05 mm tolerance, assembly fixture design, TDR verification integration.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">RF &amp; Environmental Testing</div><div class="tl-duration">8 weeks</div></div>
+              <div class="tl-desc">S-parameter measurement, thermal cycling, moisture ingress, 5 K mate/unmate cycle validation.</div>
+            </div>
+            <div class="tl-item">
+              <div><div class="tl-phase">Mass Production Ramp</div><div class="tl-duration">4 weeks</div></div>
+              <div class="tl-desc">Pilot production, line setup, 2 M unit/year capability validated, PPAP complete.</div>
+            </div>
+          </div>
+
+          <div class="proj-tags">
+            <span class="proj-tag">RF / Coax Design</span>
+            <span class="proj-tag">HFSS Simulation</span>
+            <span class="proj-tag">Impedance Control</span>
+            <span class="proj-tag">TDR Measurement</span>
+            <span class="proj-tag">PTFE Tolerance Stack-up</span>
+            <span class="proj-tag">Automated Assembly</span>
+            <span class="proj-tag">2 M units / yr</span>
+          </div>
+        </div><!-- /minifakra -->
+
+        <!-- ══ MX-DASH ══ -->
+        <div class="proj-panel" data-project="mxdash">
+          <div class="proj-header">
+            <div class="proj-meta">
+              <span>Personal project</span>
+              <div class="proj-meta-sep"></div>
+              <span>2023 – 2024</span>
+              <div class="proj-meta-sep"></div>
+              <span>Engineering Tool / Dashboard</span>
+            </div>
+            <h3 class="proj-title">MX-Dash —<br>GD&amp;T Interactive Learning Dashboard</h3>
+            <p class="proj-synopsis">
+              Built a multi-level interactive GD&amp;T and tolerance analysis dashboard
+              in vanilla HTML/CSS/JS to consolidate 5+ years of connector design experience
+              for technical interviews at Danfoss, Wilo France, Verkor, and Legrand.
+              Implemented a live worst-case and RSS stack-up calculator verified against AIAG standards.
+              Increased study completion rate from 40% to 92% through progressive disclosure UX design.
+            </p>
+          </div>
+
+          <div class="proj-specs">
+            <div class="spec-cell"><div class="spec-key">Tech Stack</div><div class="spec-val">HTML5 / CSS3 / Vanilla JS</div></div>
+            <div class="spec-cell"><div class="spec-key">Topics Covered</div><div class="spec-val">35+ — GD&amp;T, DFM, Tolerance, Mfg</div></div>
+            <div class="spec-cell"><div class="spec-key">Calculator</div><div class="spec-val">Worst-case + RSS stack-up engine</div></div>
+            <div class="spec-cell"><div class="spec-key">Validation Standard</div><div class="spec-val">AIAG examples verified</div></div>
+            <div class="spec-cell"><div class="spec-key">Completion Rate</div><div class="spec-val">40% → 92% (progressive UX)</div></div>
+            <div class="spec-cell"><div class="spec-key">Platform Uptime</div><div class="spec-val">95% over 6 months daily use</div></div>
+            <div class="spec-cell"><div class="spec-key">Responsive</div><div class="spec-val">Desktop / Tablet / Mobile &lt;480px</div></div>
+            <div class="spec-cell"><div class="spec-key">Interview Targets</div><div class="spec-val">Danfoss · Wilo · Verkor · Legrand</div></div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Design Decisions &amp; Lessons Learned</div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Problem 1</div>
+              <div class="cs-heading">Information overload — 40% study completion rate</div>
+              <div class="cs-body">Initial prototype put all 35+ topics on a single page. Cognitive load was unmanageable during intensive study sessions. Users abandoned sessions mid-way through. Problem identical to poorly structured engineering documentation — too much information, no hierarchy.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">3-tier progressive disclosure model → 92% completion</div>
+              <div class="cs-body">Restructured into Fundamentals (5 topics) → Intermediate (8) → Expert (12). Tab-based UI for rapid switching. Each topic capped at 200–300 words with key takeaways highlighted. Next tier unlocks on completion. Completion rate: 40% → 92%.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Problem 2</div>
+              <div class="cs-heading">Worst-case vs. RSS calculator — method confusion</div>
+              <div class="cs-body">Single-formula calculator produced output users couldn't interpret. No visual differentiation between worst-case sum and statistical RSS methods. Users selecting the wrong method for the wrong scenario — critical when sizing tolerance budgets on actual parts.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Dual-mode toggle with side-by-side method comparison</div>
+              <div class="cs-body">Rebuilt calculator with toggle between Worst-Case and RSS modes. Added inline formula display. Implemented side-by-side comparison view with confidence indicators. Dynamic contributor stack with "+" button. Output verified against AIAG example problems.</div>
+            </div>
+          </div>
+
+          <div class="cs-pair">
+            <div class="cs-card challenge">
+              <div class="cs-badge challenge-badge">Problem 3</div>
+              <div class="cs-heading">Mobile unusable — nav occupied 40% of viewport</div>
+              <div class="cs-body">Navigation menu dominated phone screen real estate. Calculator inputs cramped below 480 px. Readable only on desktop — unusable during commute review sessions. Core use case (on-the-go study) was completely unsupported.</div>
+            </div>
+            <div class="cs-card solution">
+              <div class="cs-badge solution-badge">Fixed</div>
+              <div class="cs-heading">Hamburger nav + vertically stacked inputs — fully functional below 480 px</div>
+              <div class="cs-body">Implemented hidden hamburger menu on mobile. Min 44 px touch targets (WCAG 2.5.5). Stacked calculator inputs vertically with larger input fields. CSS media queries for responsive font scaling. Tested on iPhone 12, Samsung S21, iPad — fully functional at 320 px wide.</div>
+            </div>
+          </div>
+
+          <div class="proj-section">
+            <div class="proj-section-title"><span class="proj-section-num">—</span>Role &amp; Impact</div>
+          </div>
+          <div class="role-list">
+            <div class="role-item"><div class="role-icon">CON</div><div class="role-text"><strong>Content authoring:</strong> Wrote all 35+ technical modules drawing from 5+ years at Molex / Amaichy. GD&amp;T symbols, tolerance stack-up methods, DFM plastics guidelines, automotive manufacturing processes.</div></div>
+            <div class="role-item"><div class="role-icon">UX</div><div class="role-text"><strong>UI/UX design:</strong> Designed progressive disclosure hierarchy, dark-mode color system, information architecture with 3-tier unlock model.</div></div>
+            <div class="role-item"><div class="role-icon">DEV</div><div class="role-text"><strong>Frontend development:</strong> Responsive HTML/CSS/JS — zero external dependencies. localStorage persistence for progress tracking and completion state.</div></div>
+            <div class="role-item"><div class="role-icon">CALC</div><div class="role-text"><strong>Calculator engine:</strong> Worst-case and RSS tolerance stack-up with real-time UI updates. All outputs verified against AIAG standard examples — used for actual interview preparation.</div></div>
+            <div class="role-item"><div class="role-icon">IMP</div><div class="role-text"><strong>Real-world impact:</strong> Used to prepare for 4 technical interviews. 12+ feature improvements implemented based on actual usage patterns over 6-month study period.</div></div>
+          </div>
+
+          <div class="proj-tags">
+            <span class="proj-tag">HTML5 / CSS3</span>
+            <span class="proj-tag">Vanilla JS</span>
+            <span class="proj-tag">Responsive Design</span>
+            <span class="proj-tag">Calculator Engine</span>
+            <span class="proj-tag">AIAG Validated</span>
+            <span class="proj-tag">GD&amp;T Reference</span>
+            <span class="proj-tag">Interview Prep</span>
+          </div>
+        </div><!-- /mxdash -->
+
+      </div><!-- /proj-content -->
+    </div><!-- /projects-layout -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════ -->
+<div id="contact-wrap">
+  <div class="contact-inner">
+    <div class="contact-glow"></div>
+    <div class="reveal">
+      <p class="contact-eyebrow">04 — Get in touch</p>
+      <h2 class="contact-title">Let's build<br><em>together</em></h2>
+      <p class="contact-desc">
+        Open to mechanical design engineering roles in automotive, industrial,
+        or connector / interconnect domains.
+        Comfortable leading design from concept through production release.
+        Available immediately.
+      </p>
+    </div>
+    <div class="contact-actions reveal reveal-d2">
+      <a href="mailto:contact@bilel.dev" class="cta-btn">
+        Say hello ↗
+      </a>
+      <nav class="socials-list">
+        <a href="https://linkedin.com" class="social-item" target="_blank">
+          <span class="social-arr">↗</span> LinkedIn
+        </a>
+        <a href="https://github.com" class="social-item" target="_blank">
+          <span class="social-arr">↗</span> GitHub
+        </a>
+        <a href="https://instagram.com/Bilel_LabWorks" class="social-item" target="_blank">
+          <span class="social-arr">↗</span> Instagram — Bilel_LabWorks
+        </a>
+        <a href="mailto:contact@bilel.dev" class="social-item">
+          <span class="social-arr">↗</span> contact@bilel.dev
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
 <footer>
-  <span>© 2024 — Your Name</span>
-  <span>Designed & Built with ♥</span>
+  <span>© 2026 — Bilel BGH</span>
+  <span>Mechanical Design Engineer · Automotive Connector &amp; Plastics</span>
 </footer>
 
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
 <script>
-  // ── CURSOR ──
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+/* ── CURSOR ── */
+const dot  = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
+/* ── PROJECT SWITCHER ── */
+function switchProj(name, btn){
+  document.querySelectorAll('.proj-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.proj-nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-project="'+name+'"]').classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── SCROLL REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      revObs.unobserve(e.target);
+    }
   });
+},{threshold:0.1, rootMargin:'0px 0px -50px 0px'});
+reveals.forEach(el=>revObs.observe(el));
 
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  // ── SCROLL REVEAL ──
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
-
-  // ── SKILLS STAGGER ──
-  const skillItems = document.querySelectorAll('.skill-item');
-  skillItems.forEach((item, i) => {
-    item.style.transitionDelay = `${i * 0.04}s`;
+/* ── SKILL BARS (animate on scroll) ── */
+const fills = document.querySelectorAll('.skill-fill');
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      // stagger each bar slightly
+      const siblings = e.target.closest('.skills-groups')
+        ? e.target.closest('.skills-groups').querySelectorAll('.skill-fill') : [e.target];
+      siblings.forEach((f,i)=>{
+        setTimeout(()=>f.classList.add('animated'), i*60);
+      });
+      barObs.unobserve(e.target);
+    }
   });
+},{threshold:0.3});
+if(fills.length) barObs.observe(fills[0]);
 </script>
 </body>
 </html>
