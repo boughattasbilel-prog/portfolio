@@ -69,6 +69,10 @@ body::after {
 }
 
 a { color:inherit; text-decoration:none; }
+p { max-width:66ch; }
+strong { font-weight:800; color:var(--text); }
+em { font-family:'Source Serif 4', Georgia, serif; }
+::selection { background:var(--accent); color:#111; }
 ul,ol { list-style:none; }
 button { font-family:inherit; }
 img { display:block; max-width:100%; }
@@ -146,6 +150,8 @@ body:has(a:hover,button:hover) #cur-dot {
    HERO
 ════════════════════════════════════════ */
 #hero {
+  background:#0a0b0f;
+  color:#f5f5f2;
   min-height:100svh;
   padding-top:var(--nav-h);
   display:grid;
@@ -155,6 +161,7 @@ body:has(a:hover,button:hover) #cur-dot {
 
 /* Engineering grid texture */
 .hero-grid {
+  opacity:.38;
   position:absolute; inset:0; pointer-events:none;
   background-image:
     linear-gradient(rgba(200,240,77,.025) 1px, transparent 1px),
@@ -162,12 +169,14 @@ body:has(a:hover,button:hover) #cur-dot {
   background-size:72px 72px;
 }
 .hero-glow {
+  opacity:.24;
   position:absolute; top:-15%; right:-10%;
   width:55vw; height:55vw; border-radius:50%;
   background:radial-gradient(circle, rgba(200,240,77,.07) 0%, transparent 60%);
   pointer-events:none;
 }
 .hero-glow-2 {
+  opacity:.18;
   position:absolute; bottom:-20%; left:-10%;
   width:40vw; height:40vw; border-radius:50%;
   background:radial-gradient(circle, rgba(200,240,77,.04) 0%, transparent 60%);
@@ -175,18 +184,12 @@ body:has(a:hover,button:hover) #cur-dot {
 }
 
 .hero-main {
+  position:relative; z-index:2;
   display:flex; flex-direction:column; justify-content:center;
   padding:0 var(--pad);
   position:relative; z-index:1;
 }
 
-.hero-eyebrow {
-  font-family:var(--mono); font-size:.72rem;
-  letter-spacing:.2em; text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:2.5rem;
-  opacity:0; animation:up .7s .15s forwards;
-}
 
 .hero-name {
   font-family:var(--serif);
@@ -196,7 +199,7 @@ body:has(a:hover,button:hover) #cur-dot {
   margin-bottom:3rem;
   opacity:0; animation:up .9s .3s forwards;
 }
-.hero-name em { font-style:italic; color:var(--accent); }
+.hero-name em { font-style:normal; color:var(--accent); font-family:'Inter', sans-serif; font-weight:800; }
 
 .hero-sub {
   display:grid; grid-template-columns:1fr 1fr;
@@ -234,17 +237,17 @@ body:has(a:hover,button:hover) #cur-dot {
   border-right:1px solid var(--border);
 }
 .metric:last-child { border-right:none; }
-.metric-num {
+#hero .metric-num {
   font-family:var(--serif); font-size:2.8rem; font-weight:600;
   color:var(--accent); line-height:1;
   margin-bottom:.3rem;
 }
-.metric-label {
+#hero .metric-label {
   font-family:var(--mono); font-size:.68rem;
   letter-spacing:.12em; text-transform:uppercase;
   color:var(--text-2);
 }
-.metric-sub {
+#hero .metric-sub {
   font-size:.8rem; color:var(--text-2); margin-top:.2rem;
 }
 
@@ -258,11 +261,13 @@ body:has(a:hover,button:hover) #cur-dot {
 }
 /* full-bleed sections need a wrapper */
 .section-bleed {
+  position:relative;
   border-top:1px solid var(--border);
 }
 .section-bleed > .section { border:none; }
 
 .sec-label {
+  font-weight:700;
   font-family:var(--mono); font-size:.68rem;
   letter-spacing:.2em; text-transform:uppercase;
   color:var(--accent); margin-bottom:1rem;
@@ -398,7 +403,7 @@ body:has(a:hover,button:hover) #cur-dot {
   transition:border-color .25s;
   position:relative;
 }
-.proj-nav-item.active { border-left-color:var(--accent); }
+.proj-nav-item.active { border-left-color:var(--accent); background:var(--surf); box-shadow:var(--shadow-soft); }
 .proj-nav-item:hover:not(.active) { border-left-color:var(--border-2); }
 .proj-nav-num {
   font-family:var(--mono); font-size:.68rem;
@@ -727,6 +732,296 @@ footer {
   .hero-metrics { grid-template-columns:1fr; }
   .proj-sidebar { grid-template-columns:1fr; }
 }
+
+@media (max-width: 1024px) {
+  .hero-sub,.about-grid,.project-hero,.contact-card,.detail-grid { grid-template-columns:1fr; }
+  .skills-groups { grid-template-columns:1fr 1fr; }
+  .project-kpis { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 768px) {
+  .section { width:min(var(--maxw), calc(100% - 1.35rem)); padding:4.5rem 0; }
+  .hero-main {
+  position:relative; z-index:2; padding-top:1.2rem; }
+  .hero-name { max-width:none; }
+  .hero-role-tag { padding:.9rem; }
+  .skills-groups { grid-template-columns:1fr; }
+  .career-item { grid-template-columns:1fr; gap:.4rem; }
+  .project-kpis,.hero-metrics { grid-template-columns:1fr 1fr; }
+  .proj-nav-item { padding:.85rem .8rem; }
+}
+@media (max-width: 480px) {
+  .hero-metrics,.project-kpis { grid-template-columns:1fr; }
+  .sec-title { max-width:none; }
+  .metric,.detail-card,.skill-group,.career-item,.contact-card,.hero-role-tag { border-radius:16px; }
+}
+
+.hero-main .cta-row a, .hero-main .cta-row button, .btn-primary, .btn-secondary {
+  min-height:48px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+#hero p, #hero li { max-width:52ch; }
+#hero .metric-num { color:#fff; font-weight:800; }
+#hero .metric-label { color:#f0f0ec; font-weight:700; }
+#hero .metric-sub { color:#a9adba; }
+.project-title, .detail-title, .skill-group-title, .career-title { font-weight:800; }
+.project-meta, .career-co, .proj-nav-co, .skill-lvl-text { color:var(--muted); }
+@media (max-width: 768px) {
+  .hero-desc { font-size:1.08rem; line-height:1.82; }
+  .hero-name { font-size:clamp(2.9rem, 16vw, 5rem); }
+  #hero p, #hero li { max-width:none; }
+}
+
+
+.services-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.service-card { background:var(--surf); border:1px solid var(--line); border-radius:20px; padding:1.3rem; box-shadow:var(--shadow-soft); }
+.service-num { font-size:.78rem; font-weight:800; letter-spacing:.16em; color:var(--accent-2); margin-bottom:.65rem; }
+.service-title { font-size:1.08rem; line-height:1.35; margin:0 0 .6rem; }
+.service-copy { color:var(--muted); line-height:1.8; margin:0; }
+@media (max-width: 768px) { .services-grid { grid-template-columns:1fr; } }
+
+.services-intro { max-width:72ch; margin:0 0 2rem; }
+.services-intro p { font-size:1.08rem; line-height:1.85; color:var(--muted); }
+.services-columns { display:grid; grid-template-columns:1.08fr .92fr; gap:1rem; align-items:start; }
+.service-col, .feature-card { min-width:0; }
+.service-col-head { font-size:.82rem; text-transform:uppercase; letter-spacing:.14em; font-weight:800; color:var(--accent-2); margin:0 0 .9rem; }
+.service-col { display:grid; gap:1rem; }
+.service-card { display:grid; grid-template-columns:54px 1fr; gap:1rem; align-items:start; background:var(--surf); border:1px solid var(--line); border-radius:22px; padding:1.2rem; box-shadow:var(--shadow-soft); }
+.service-icon { width:54px; height:54px; border-radius:16px; display:grid; place-items:center; font-size:1.35rem; background:var(--accent-soft); }
+.service-title { font-size:1.04rem; line-height:1.35; margin:0 0 .45rem; }
+.service-copy { color:var(--muted); line-height:1.78; margin:0 0 .8rem; }
+.service-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+.service-tags span { display:inline-flex; align-items:center; min-height:34px; padding:.45rem .7rem; border-radius:999px; background:#0f1117; color:#fff; font-size:.76rem; letter-spacing:.04em; font-weight:700; }
+.feature-card { background:linear-gradient(180deg, #111319, #171a22); color:#f3f4f7; border:1px solid rgba(255,255,255,.08); border-radius:22px; padding:1.25rem; box-shadow:none; }
+.feature-card h3 { margin:0 0 .8rem; font-size:1.06rem; line-height:1.4; color:#fff; }
+.feature-card ul { margin:0; padding-left:1.1rem; display:grid; gap:.7rem; }
+.feature-card li { color:#d7dae2; line-height:1.72; }
+.feature-card strong { color:#fff; background:none; }
+.award-card { background:linear-gradient(180deg, #18140b, #211a0f); }
+.hero-desc strong { color:#fff; background:linear-gradient(transparent 58%, rgba(224,179,33,.45) 58%); padding:0 .08em; border-radius:.12em; }
+@media (max-width: 1024px) { .services-columns { grid-template-columns:1fr; } }
+@media (max-width: 768px) { .service-card { grid-template-columns:1fr; } .service-icon { width:46px; height:46px; border-radius:14px; } }
+
+
+
+
+#hero { background:#000; padding-top:0; }
+.hero-main { max-width:1040px; padding-top:0; margin-top:0; }
+.hero-name { margin:0 0 .9rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.05em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.8rem, 12.8vw, 10rem); line-height:.76; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.16em; }
+.hero-desc { max-width:46rem; margin:0 0 1.45rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4.1rem, 22vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:1020px; padding-top:0; }
+.hero-name { margin:0 0 .85rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.045em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.6rem, 12.4vw, 9.4rem); line-height:.78; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.2em; }
+.hero-desc { max-width:46rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; margin:0 0 1.35rem; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4rem, 21vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:980px; }
+.hero-eyebrow { color:#c9f53f; letter-spacing:.16em; font-size:.72rem; font-weight:800; margin-bottom:.9rem; }
+.hero-name { margin:.1rem 0 .6rem; font-size:clamp(5.8rem, 15vw, 11rem); line-height:.82; letter-spacing:-.055em; font-family:'Source Serif 4', Georgia, serif; font-weight:400; color:#fff; text-transform:none; }
+.hero-name em { color:#c9f53f; font-style:normal; font-family:'Inter', sans-serif; font-weight:900; }
+.hero-desc { max-width:42rem; color:#f1f1ef; font-size:1.02rem; line-height:1.9; }
+.hero-desc strong { color:#fff; background:linear-gradient(transparent 58%, rgba(201,245,63,.32) 58%); padding:0 .08em; }
+@media (max-width: 768px) {
+  .hero-name { font-size:clamp(4rem, 20vw, 6.8rem); }
+  .hero-subhead { font-size:.9rem; letter-spacing:.16em; max-width:none; }
+  .hero-desc { max-width:none; }
+}
+
+
+.skill-pill-wrap { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1.4rem; }
+.skill-pill { display:inline-flex; align-items:center; min-height:36px; padding:.5rem .82rem; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(255,255,255,.03); color:#cfd3dc; font-size:.78rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; transition:.22s ease; }
+.skill-pill:hover { background:#c8f03f; color:#0a0b0f; border-color:#c8f03f; box-shadow:0 0 0 1px rgba(200,240,63,.35), 0 0 22px rgba(200,240,63,.22); transform:translateY(-1px); }
+.skill-pill:focus-visible { outline:2px solid #c8f03f; outline-offset:2px; }
+@media (max-width: 768px) { .skill-pill { min-height:34px; padding:.45rem .75rem; } }
+
+
+
+#hero { background:#000; padding-top:0; }
+.hero-main { max-width:1040px; padding-top:0; margin-top:0; }
+.hero-name { margin:0 0 .9rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.05em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.8rem, 12.8vw, 10rem); line-height:.76; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.16em; }
+.hero-desc { max-width:46rem; margin:0 0 1.45rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4.1rem, 22vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:1020px; padding-top:0; }
+.hero-name { margin:0 0 .85rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.045em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.6rem, 12.4vw, 9.4rem); line-height:.78; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.2em; }
+.hero-desc { max-width:46rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; margin:0 0 1.35rem; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4rem, 21vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:1020px; }
+.hero-eyebrow { color:#c8f03f; letter-spacing:.16em; font-size:.72rem; font-weight:800; margin-bottom:.8rem; }
+.hero-name { margin:.06rem 0 .15rem; font-size:clamp(5.8rem, 15vw, 11.4rem); line-height:.8; letter-spacing:-.055em; font-family:'Inter Tight', 'Arial Narrow', 'Impact', sans-serif; font-weight:900; color:#fff; text-transform:uppercase; }
+.hero-name em { color:#c8f03f; font-style:normal; font-family:'Inter Tight', 'Arial Narrow', 'Impact', sans-serif; font-weight:900; }
+.hero-subhead { margin:.3rem 0 1.45rem; color:#9ba0ab; font-size:clamp(.95rem, 1.7vw, 1.15rem); line-height:1.2; letter-spacing:.24em; font-weight:700; text-transform:uppercase; max-width:24ch; }
+.hero-desc { max-width:46rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; margin-bottom:1.35rem; }
+.hero-desc strong { color:#fff; font-weight:800; background:none; padding:0; }
+.hero-badge-shell { max-width:740px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.35rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.7rem); }
+.skill-pill { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:.55rem .8rem; border:1px solid rgba(255,255,255,.16); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.12em; text-transform:uppercase; transition:.2s ease; }
+.skill-pill:hover { background:#c8f03f; color:#0b0c10; border-color:#c8f03f; box-shadow:0 0 0 1px rgba(200,240,63,.35), 0 0 22px rgba(200,240,63,.18); }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+.skill-pill { will-change:auto; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-name { font-size:clamp(4.2rem, 22vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+
+
+
+#hero { background:#000; padding-top:0; }
+.hero-main { max-width:1040px; padding-top:0; margin-top:0; }
+.hero-name { margin:0 0 .9rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.05em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.8rem, 12.8vw, 10rem); line-height:.76; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.16em; }
+.hero-desc { max-width:46rem; margin:0 0 1.45rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4.1rem, 22vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:1020px; padding-top:0; }
+.hero-name { margin:0 0 .85rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.045em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.6rem, 12.4vw, 9.4rem); line-height:.78; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.2em; }
+.hero-desc { max-width:46rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; margin:0 0 1.35rem; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover { background:#0b0c10; color:#d5d7dd; border-color:rgba(255,255,255,.16); box-shadow:none; transform:none; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4rem, 21vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+.hero-main { max-width:1020px; }
+.hero-name { margin:.02rem 0 .55rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.72; letter-spacing:-.045em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.6rem, 12.4vw, 9.4rem); line-height:.78; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.18em; }
+.hero-desc { max-width:46rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; margin-bottom:1.35rem; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; padding:0; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:.55rem .8rem; border:1px solid rgba(255,255,255,.16); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.12em; text-transform:uppercase; transition:.2s ease; }
+.skill-pill:hover { background:#c8f03f; color:#0b0c10; border-color:#c8f03f; box-shadow:0 0 0 1px rgba(200,240,63,.35), 0 0 22px rgba(200,240,63,.18); }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+.skill-pill { will-change:auto; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4rem, 21vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+
+#hero { background:#000; padding-top:0; }
+.hero-main { max-width:1040px; padding-top:0; margin-top:0; }
+.hero-name { margin:0 0 .9rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; line-height:.74; letter-spacing:-.05em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(4.8rem, 12.8vw, 10rem); line-height:.76; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:-.12em; }
+.hero-subtitle { margin:0 0 1.35rem; color:#9ba0ab; font-size:clamp(.92rem, 1.6vw, 1.08rem); line-height:1.2; letter-spacing:.22em; font-weight:700; text-transform:uppercase; max-width:28ch; }
+.hero-desc { max-width:46rem; margin:0 0 1.45rem; color:#a0a4af; font-size:1.02rem; line-height:1.95; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; text-shadow:none; box-shadow:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { background:#111318; color:#f4f4f1; border-color:#c8f03f; box-shadow:0 0 0 1px rgba(200,240,63,.22); transform:translateY(-1px); }
+.skill-pill, .skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4.1rem, 22vw, 6.8rem); } .hero-desc { max-width:none; } }
+
+
+#hero { background:#000; padding-top:0; }
+.hero-main { max-width:1120px; padding-top:0; margin-top:0; }
+.hero-name { margin:0 0 .6rem; display:flex; flex-direction:column; align-items:flex-start; gap:.06em; line-height:.88; letter-spacing:-.02em; }
+.hero-line { display:block; font-family:'Inter Tight','Arial Narrow','Impact',sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(5.3rem, 13vw, 10.4rem); line-height:1; letter-spacing:.02em; }
+.hero-line-white { color:#fff; }
+.hero-line-green { color:#c8f03f; margin-top:0; }
+.hero-subtitle { margin:0 0 1.05rem; color:#9ba0ab; font-size:clamp(1rem, 1.9vw, 1.35rem); line-height:1.1; letter-spacing:.18em; font-weight:800; text-transform:uppercase; max-width:30ch; }
+.hero-desc { max-width:46rem; margin:0 0 1.5rem; color:#a0a4af; font-size:1.01rem; line-height:1.95; padding-left:1rem; border-left:1px solid rgba(255,255,255,.12); }
+.hero-desc strong { color:#fff; font-weight:800; background:none; }
+.hero-badge-shell { max-width:860px; }
+.stagger-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.85rem; align-items:stretch; }
+.stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5) { transform:translateY(.28rem); }
+.stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:translateY(.56rem); }
+.skill-pill { display:flex; align-items:center; justify-content:center; min-height:42px; width:100%; padding:.58rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:0; background:#0b0c10; color:#d5d7dd; font:700 .72rem/1.1 'IBM Plex Mono','SFMono-Regular',Consolas,monospace; letter-spacing:.11em; text-transform:uppercase; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; box-sizing:border-box; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { background:#111318; color:#f4f4f1; border-color:#c8f03f; box-shadow:0 0 0 1px rgba(200,240,63,.22); transform:translateY(-1px); }
+.skill-pill.ghost { background:#0b0c10; }
+.skill-pill:hover, .skill-pill:focus, .skill-pill:active { opacity:1; }
+@media (max-width: 900px) { .stagger-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } .stagger-grid .skill-pill:nth-child(2), .stagger-grid .skill-pill:nth-child(5), .stagger-grid .skill-pill:nth-child(3), .stagger-grid .skill-pill:nth-child(6) { transform:none; } }
+@media (max-width: 640px) { .stagger-grid { grid-template-columns:1fr; } .hero-line { font-size:clamp(4.2rem, 22vw, 7rem); } .hero-desc { max-width:none; } }
+
 </style>
 </head>
 <body>
@@ -741,9 +1036,10 @@ footer {
 <header class="nav">
   <a href="#hero" class="nav-logo">B<span>.</span>BGH</a>
   <nav class="nav-links">
+    <a href="#services-wrap">What I do</a>
+    <a href="#projects-wrap">Featured work</a>
+    <a href="#skills-wrap">Skills &amp; tools</a>
     <a href="#about-wrap">About</a>
-    <a href="#skills-wrap">Skills</a>
-    <a href="#projects-wrap">Projects</a>
     <a href="#contact-wrap">Contact</a>
   </nav>
   <div class="nav-avail">
@@ -757,288 +1053,100 @@ footer {
 ═══════════════════════════════════════ -->
 <section id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-glow-2"></div>
-
   <div class="hero-main">
-    <p class="hero-eyebrow">Mechanical Design Engineer — Automotive &amp; Industrial</p>
-    <h1 class="hero-name">Bilel<br><em>BGH.</em></h1>
-    <div class="hero-sub">
-      <p class="hero-desc">
-        Connector and plastic part design specialist with 5+ years in automotive tier-1.
-        End-to-end ownership from GD&amp;T tolerance stack-up, injection mold feasibility,
-        and DFMEA — through tooling trials, testing, and PPAP submission.
-        Core tools: SolidWorks · NX · CREO · CATIA.
-      </p>
-      <div class="hero-role-tag">
-        <span class="role-badge">GD&amp;T / Tolerance Stack</span>
-        <span class="role-badge">Injection Molding DFM</span>
-        <span class="role-badge">DFMEA / PPAP</span>
-        <span class="role-badge">Connector Design</span>
-        <span class="role-badge">IP67 · USCAR · LV214</span>
-        <span class="role-badge">ISO 6722 · IEC 60664</span>
+    <h1 class="hero-name"><span class="hero-line hero-line-white">BILEL</span><span class="hero-line hero-line-green">BOUGHATTAS</span></h1>
+    <p class="hero-subtitle">PRODUCT DEVELOPMENT ENGINEER</p>
+    <p class="hero-desc">
+      Mechanical engineer with <strong>6 years</strong> of R&amp;D experience designing <strong>electromechanical connectors</strong>. I drive products from concept to industrialization using <strong>3D CAD</strong>, strict <strong>GD&amp;T</strong>, and <strong>DFMA</strong> methodologies, ensuring design robustness through <strong>FEA</strong> and <strong>Moldflow</strong> simulations.
+    </p>
+    <div class="hero-badge-shell">
+      <div class="skill-pill-wrap stagger-grid" aria-label="Technical skills">
+        <span class="skill-pill ghost">GD&amp;T / TOLERANCE STACK</span>
+        <span class="skill-pill ghost">INJECTION MOLDING DFM</span>
+        <span class="skill-pill ghost">DFMEA / PPAP</span>
+        <span class="skill-pill ghost">CONNECTOR DESIGN</span>
+        <span class="skill-pill ghost">IP67 · USCAR · LV214</span>
+        <span class="skill-pill ghost">ISO 6722 · IEC 60664</span>
       </div>
-    </div>
-  </div>
-
-  <div class="hero-metrics">
-    <div class="metric">
-      <div class="metric-num">5+</div>
-      <div class="metric-label">Years experience</div>
-      <div class="metric-sub">Automotive tier-1</div>
-    </div>
-    <div class="metric">
-      <div class="metric-num">4</div>
-      <div class="metric-label">Major projects</div>
-      <div class="metric-sub">Concept → production</div>
-    </div>
-    <div class="metric">
-      <div class="metric-num">−30%</div>
-      <div class="metric-label">Cost-out achieved</div>
-      <div class="metric-sub">LCP → PBT transition</div>
-    </div>
-    <div class="metric">
-      <div class="metric-num">2M+</div>
-      <div class="metric-label">Units / year</div>
-      <div class="metric-sub">Mass-production validated</div>
     </div>
   </div>
 </section>
-
-<!-- ═══════════════════════════════════════
-     ABOUT
-═══════════════════════════════════════ -->
-<div id="about-wrap" class="section-bleed" style="background:var(--surf);">
+<div id="services-wrap" class="section-bleed" style="background:var(--surf); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
   <div class="section">
-    <p class="sec-label reveal">01 — About me</p>
-    <h2 class="sec-title reveal">Engineering<br>from <em>spec to part</em></h2>
-
-    <div class="about-grid reveal">
-      <div class="about-body">
-        <p>
-          I design the parts that live inside vehicles — the connectors, housings, and
-          plastic assemblies that must survive −40 °C winter starts and 150 °C engine bays,
-          vibration, humidity, and 50,000 mate/unmate cycles without a single point of failure.
-        </p>
-        <p>
-          At <strong>Amaichy Innovation</strong>, I led the Y-Lock V3 and Y-Quad programs
-          from blank page through PPAP — owning GD&amp;T strategy, tolerance stack-up calculations,
-          injection mold DFM reviews, DFMEA facilitation, and supplier tooling coordination.
-          I fixed a 5% PBT shrinkage issue that was eating the stack-up budget, redesigned a
-          snap-fit that failed its first 50 N pull-force test, and drove a material transition
-          from LCP to PBT-GF30 that delivered a 29.8% unit cost reduction.
-        </p>
-        <p>
-          At <strong>Molex Automotive Division</strong>, I designed Mini-Fakra RF connectors
-          for 2 M+ units/year — controlling 50 Ω impedance to ±2.8 Ω through mold tolerance
-          optimization and 100% in-line TDR verification.
-        </p>
-        <p>
-          My approach: calculate it first, prototype smart, validate relentlessly. I document
-          trade-offs clearly and move designs to production without surprises.
-        </p>
+    <p class="sec-label reveal">01 — What I do</p>
+    <h2 class="sec-title reveal">Design, methods <br><em>&amp; execution</em></h2>
+    <div class="services-intro reveal">
+      <p>I work at the intersection of <strong>design</strong>, <strong>plasturgy</strong>, <strong>industrialization</strong>, and <strong>product validation</strong>. My approach is built for technical products that must be functional, manufacturable, and production-ready.</p>
+    </div>
+    <div class="services-columns reveal">
+      <div class="service-col">
+        <div class="service-col-head">🚀 What I Do</div>
+        <article class="service-card">
+          <div class="service-icon">🏗️</div>
+          <div>
+            <h3 class="service-title">3D CAD Design &amp; Modeling</h3>
+            <p class="service-copy">Complex assemblies, 2D drawings with functional dimensioning, and robust design development for plastic, connector, and industrial parts.</p>
+            <div class="service-tags"><span>SolidWorks</span><span>NX Siemens</span><span>CATIA</span><span>Creo</span><span>AutoCAD</span></div>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-icon">🔬</div>
+          <div>
+            <h3 class="service-title">Product Validation &amp; Simulation</h3>
+            <p class="service-copy">Moldflow and FEA-driven design reviews, mechanical constraints, and deformation analysis to secure part performance before release.</p>
+            <div class="service-tags"><span>FEA</span><span>Moldflow</span><span>Mechanical Testing</span></div>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-icon">⚡</div>
+          <div>
+            <h3 class="service-title">Manufacturing Processes</h3>
+            <p class="service-copy">Hands-on understanding of <strong>plastic injection</strong>, stamping, assemblies, tooling constraints, and real production behavior.</p>
+            <div class="service-tags"><span>Plastics</span><span>Stamping</span><span>Assembly</span></div>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-icon">📐</div>
+          <div>
+            <h3 class="service-title">Quality &amp; Industrialization</h3>
+            <p class="service-copy">DFMEA, risk analysis, PPAP support, DFM/DFA reviews, and structured problem solving to resolve non-conformities efficiently.</p>
+            <div class="service-tags"><span>AMDEC</span><span>5 Whys</span><span>DFM / DFA</span><span>ISO GPS / ASME</span></div>
+          </div>
+        </article>
       </div>
-
-      <div class="about-sidebar">
-        <div class="career-list reveal">
-          <div class="career-item">
-            <div class="career-year">2024 →</div>
-            <div>
-              <div class="career-title"> </div>
-              <div class="career-co">Advanced GD&amp;T · Danfoss · Wilo · Verkor</div>
-              <div class="career-detail">Built MX-Dash learning dashboard; intensive tolerance analysis and DFM deep-dives.</div>
-            </div>
-          </div>
-          <div class="career-item">
-            <div class="career-year">2021 – 2023</div>
-            <div>
-              <div class="career-title">Senior Design Engineer</div>
-              <div class="career-co">Yamaichy Innovation</div>
-              <div class="career-detail">Led Y-Lock V3 and Y-Quad from concept to 500 K+ units/year. 99.8% reliability validated.</div>
-            </div>
-          </div>
-          <div class="career-item">
-            <div class="career-year">2019 – 2021</div>
-            <div>
-              <div class="career-title">Design Engineer</div>
-              <div class="career-co">Molex — Automotive Division</div>
-              <div class="career-detail">Mini-Fakra RF connector. 2 M units/year. 30% cost reduction via DFM.</div>
-            </div>
-          </div>
-          <div class="career-item">
-            <div class="career-year">2018 – 2019</div>
-            <div>
-              <div class="career-title">Junior Design Engineer</div>
-              <div class="career-co">Automotive OEM / Supplier</div>
-              <div class="career-detail">Foundation in CAD modeling, technical drawing, GD&amp;T application, connector DFM.</div>
-            </div>
-          </div>
-        </div>
+      <div class="service-col">
+        <div class="service-col-head">🗂️ Featured Experience &amp; Projects</div>
+        <article class="feature-card">
+          <h3>🚗 Automotive &amp; Electronic Connectors</h3>
+          <ul>
+            <li><strong>High-precision design</strong> of complex connectors and assemblies in R&amp;D environments using NX Siemens and SolidWorks.</li>
+            <li><strong>Functional dimensioning</strong> through 2D plans aligned with GD&amp;T and ISO GPS requirements.</li>
+            <li><strong>Validation analysis</strong> of Moldflow and FEA results to improve assembly robustness.</li>
+          </ul>
+        </article>
+        <article class="feature-card">
+          <h3>⚙️ Quality &amp; Industrialization Coordination</h3>
+          <ul>
+            <li><strong>Risk management</strong> through DFMEA, P-FMEA, and engineering reviews for new products.</li>
+            <li><strong>Cross-functional coordination</strong> with manufacturing, quality, and suppliers to solve non-conformities.</li>
+            <li><strong>Automotive standards support</strong> for qualification lists and PPAP preparation.</li>
+          </ul>
+        </article>
+        <article class="feature-card award-card">
+          <h3>🏆 Award-Winning Design &amp; Innovation</h3>
+          <ul>
+            <li><strong>1st National Prize</strong> — National Design Contest 2017 (ENIM, Tunisia).</li>
+            <li><strong>1st National Prize</strong> — SolidWorks Creativity Contest 2017 (TID, Tunisia).</li>
+            <li><strong>1st National Prize</strong> — 24 Hours of Innovation 2014 (ESTIA, France).</li>
+          </ul>
+        </article>
       </div>
     </div>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════
-     SKILLS
-═══════════════════════════════════════ -->
-<div id="skills-wrap" class="section-bleed">
-  <div class="section">
-    <p class="sec-label reveal">02 — Technical expertise</p>
-    <h2 class="sec-title reveal">Skills &amp;<br><em>tools</em></h2>
-
-    <div class="skills-groups reveal">
-
-      <!-- Group 1: CAD & Software -->
-      <div class="skill-group">
-        <div class="skill-group-title">CAD &amp; Software</div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">SolidWorks</span>
-            <span class="skill-lvl-text">Expert</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">CATIA V5 / V6</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">NX Siemens</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">PTC CREO</span>
-            <span class="skill-lvl-text">Proficient</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Moldflow / FEA</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">HFSS (EM Simulation)</span>
-            <span class="skill-lvl-text">Proficient</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:68%"></div></div>
-        </div>
-      </div>
-
-      <!-- Group 2: Engineering Methods -->
-      <div class="skill-group">
-        <div class="skill-group-title">Engineering Methods</div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">GD&amp;T / Tolerance Stack-up</span>
-            <span class="skill-lvl-text">Expert</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Design for Manufacturability</span>
-            <span class="skill-lvl-text">Expert</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:93%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">DFMEA / AMDEC</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Injection Molding Design</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Thermal / Structural FEA</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:83%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">VAVE / Cost-Out Studies</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:86%"></div></div>
-        </div>
-      </div>
-
-      <!-- Group 3: Standards & Processes -->
-      <div class="skill-group">
-        <div class="skill-group-title">Standards &amp; Processes</div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">PPAP / APQP</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Creepage &amp; Clearance (IEC 60664)</span>
-            <span class="skill-lvl-text">Expert</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Technical Drawing (ISO 13715)</span>
-            <span class="skill-lvl-text">Expert</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:94%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">USCAR / LV214 / ISO 6722</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">Material Eng. (PBT / LCP / Bronze)</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:87%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-top">
-            <span class="skill-name-text">MSA / Process Capability (Cpk)</span>
-            <span class="skill-lvl-text">Advanced</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════
-     PROJECTS
-═══════════════════════════════════════ -->
 <div id="projects-wrap" class="section-bleed">
   <div class="section">
-    <p class="sec-label reveal">03 — Selected work</p>
+    <p class="sec-label reveal">03 — Featured projects</p>
     <h2 class="sec-title reveal">Engineering<br><em>projects</em></h2>
 
     <div class="projects-layout">
@@ -1448,7 +1556,11 @@ footer {
             </div>
             <h3 class="proj-title">MX-Dash —<br>GD&amp;T Interactive Learning Dashboard</h3>
             <p class="proj-synopsis">
-              .
+              Built a multi-level interactive GD&amp;T and tolerance analysis dashboard
+              in vanilla HTML/CSS/JS to consolidate 5+ years of connector design experience
+              for technical interviews at Danfoss, Wilo France, Verkor, and Legrand.
+              Implemented a live worst-case and RSS stack-up calculator verified against AIAG standards.
+              Increased study completion rate from 40% to 92% through progressive disclosure UX design.
             </p>
           </div>
 
@@ -1536,11 +1648,239 @@ footer {
 <!-- ═══════════════════════════════════════
      CONTACT
 ═══════════════════════════════════════ -->
+<div id="skills-wrap" class="section-bleed">
+  <div class="section">
+    <p class="sec-label reveal">04 — Skills &amp; tools</p>
+    <h2 class="sec-title reveal">Skills &amp;<br><em>tools</em></h2>
+
+    <div class="skills-groups reveal">
+
+      <!-- Group 1: CAD & Software -->
+      <div class="skill-group">
+        <div class="skill-group-title">CAD &amp; Software</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">SolidWorks</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">CATIA V5 / V6</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">NX Siemens</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">PTC CREO</span>
+            <span class="skill-lvl-text">Proficient</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Moldflow / FEA</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">HFSS (EM Simulation)</span>
+            <span class="skill-lvl-text">Proficient</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:68%"></div></div>
+        </div>
+      </div>
+
+      <!-- Group 2: Engineering Methods -->
+      <div class="skill-group">
+        <div class="skill-group-title">Engineering Methods</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">GD&amp;T / Tolerance Stack-up</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Design for Manufacturability</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:93%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">DFMEA / AMDEC</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Injection Molding Design</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Thermal / Structural FEA</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:83%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">VAVE / Cost-Out Studies</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:86%"></div></div>
+        </div>
+      </div>
+
+      <!-- Group 3: Standards & Processes -->
+      <div class="skill-group">
+        <div class="skill-group-title">Standards &amp; Processes</div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">PPAP / APQP</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Creepage &amp; Clearance (IEC 60664)</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Technical Drawing (ISO 13715)</span>
+            <span class="skill-lvl-text">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:94%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">USCAR / LV214 / ISO 6722</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">Material Eng. (PBT / LCP / Bronze)</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:87%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-row-top">
+            <span class="skill-name-text">MSA / Process Capability (Cpk)</span>
+            <span class="skill-lvl-text">Advanced</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROJECTS
+═══════════════════════════════════════ -->
+<div id="about-wrap" class="section-bleed" style="background:var(--surf);">
+  <div class="section">
+    <p class="sec-label reveal">05 — About me</p>
+    <h2 class="sec-title reveal">Engineering<br>from <em>spec to part</em></h2>
+
+    <div class="about-grid reveal">
+      <div class="about-body">
+        <p>
+          I design the parts that live inside vehicles — the connectors, housings, and
+          plastic assemblies that must survive −40 °C winter starts and 150 °C engine bays,
+          vibration, humidity, and 50,000 mate/unmate cycles without a single point of failure.
+        </p>
+        <p>
+          At <strong>Amaichy Innovation</strong>, I led the Y-Lock V3 and Y-Quad programs
+          from blank page through PPAP — owning GD&amp;T strategy, tolerance stack-up calculations,
+          injection mold DFM reviews, DFMEA facilitation, and supplier tooling coordination.
+          I fixed a 5% PBT shrinkage issue that was eating the stack-up budget, redesigned a
+          snap-fit that failed its first 50 N pull-force test, and drove a material transition
+          from LCP to PBT-GF30 that delivered a 29.8% unit cost reduction.
+        </p>
+        <p>
+          At <strong>Molex Automotive Division</strong>, I designed Mini-Fakra RF connectors
+          for 2 M+ units/year — controlling 50 Ω impedance to ±2.8 Ω through mold tolerance
+          optimization and 100% in-line TDR verification.
+        </p>
+        <p>
+          My approach: calculate it first, prototype smart, validate relentlessly. I document
+          trade-offs clearly and move designs to production without surprises.
+        </p>
+      </div>
+
+      <div class="about-sidebar">
+        <div class="career-list reveal">
+          <div class="career-item">
+            <div class="career-year">2024 →</div>
+            <div>
+              <div class="career-title">Technical Interview Preparation</div>
+              <div class="career-co">Advanced GD&amp;T · Danfoss · Wilo · Verkor</div>
+              <div class="career-detail">Built MX-Dash learning dashboard; intensive tolerance analysis and DFM deep-dives.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2021 – 2023</div>
+            <div>
+              <div class="career-title">Senior Design Engineer</div>
+              <div class="career-co">Amaichy Innovation</div>
+              <div class="career-detail">Led Y-Lock V3 and Y-Quad from concept to 500 K+ units/year. 99.8% reliability validated.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2019 – 2021</div>
+            <div>
+              <div class="career-title">Design Engineer</div>
+              <div class="career-co">Molex — Automotive Division</div>
+              <div class="career-detail">Mini-Fakra RF connector. 2 M units/year. 30% cost reduction via DFM.</div>
+            </div>
+          </div>
+          <div class="career-item">
+            <div class="career-year">2018 – 2019</div>
+            <div>
+              <div class="career-title">Junior Design Engineer</div>
+              <div class="career-co">Automotive OEM / Supplier</div>
+              <div class="career-detail">Foundation in CAD modeling, technical drawing, GD&amp;T application, connector DFM.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SKILLS
+═══════════════════════════════════════ -->
 <div id="contact-wrap">
   <div class="contact-inner">
     <div class="contact-glow"></div>
     <div class="reveal">
-      <p class="contact-eyebrow">04 — Get in touch</p>
+      <p class="contact-eyebrow">06 — Get in touch</p>
       <h2 class="contact-title">Let's build<br><em>together</em></h2>
       <p class="contact-desc">
         Open to mechanical design engineering roles in automotive, industrial,
