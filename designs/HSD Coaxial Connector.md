@@ -1,7 +1,6 @@
 # Confidential Mini-FAKRA Connector Project
 
-This project focused on the mechanical design and packaging of a Yamaichi mini-FAKRA automotive connector for compact high-frequency signal transmission.
-
+This project focused on the mechanical design and packaging of a HSD Coaxial automotive connector for compact high-frequency signal transmission.
 The public version of this case study is intentionally sanitized to avoid revealing company-sensitive drawings, internal part numbers, exact dimensions, or unreleased validation data.
 
 ---
@@ -58,25 +57,4 @@ The compact nature of mini-FAKRA makes the packaging problem more sensitive than
 
 ## Project Media
 
-Use only sanitized visuals:
-
-- Simplified CAD renderings.
-- Redrawn sketches.
-- Cropped or blurred images.
-- Generic connector/package diagrams with removed labels.
-
----
-
-## Safe Wording
-
-> Confidential automotive connector packaging project focused on improving compactness, interface reliability, and manufacturability through mechanical design review and cross-functional collaboration.
-
-Avoid publishing exact CAD files, proprietary harness layouts, unreleased drawings, internal customer names, and any detail that could identify the program or a specific confidential issue.
-
----
-
-## Material Naming
-
-It is usually fine to mention common material families if they are not confidential on their own.
-
-For example, naming plastic housings or standard automotive connector materials is generally acceptable as long as you do not expose proprietary grades or internal specifications.
+![HSD Coaxial Connector](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/1595ac62-4033-4cd5-8e1c-92d02b885d88.png)
