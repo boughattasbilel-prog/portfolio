@@ -58,7 +58,6 @@ Grounding and board-level packaging also needed attention to avoid creating stre
 ## Project Media
 
 **Redrawn sketch**
-![W2B connector sketch]
-(https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/5cb5aa54-531a-46c6-830b-825b6f2f0a96.png)
+![W2B connector sketch](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/5cb5aa54-531a-46c6-830b-825b6f2f0a96.png)
 
 
