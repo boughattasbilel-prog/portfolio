@@ -37,11 +37,9 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Engineering Challenge
 
-The main challenge was integrating a high-contact-count automotive connector into a limited PCB and enclosure space.
-
-The design had to remain mechanically stable while supporting the correct orientation, soldering method, and interface behavior.
-
-Grounding and board-level packaging also needed attention to avoid creating stress, clearance, or assembly issues.
+- The main challenge was integrating a high-contact-count automotive connector into a limited PCB and enclosure space.
+- The design had to remain mechanically stable while supporting the correct orientation, soldering method, and interface behavior.
+- Grounding and board-level packaging also needed attention to avoid creating stress, clearance, or assembly issues.
 
 ---
 
