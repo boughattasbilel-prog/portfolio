@@ -45,10 +45,10 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Result
 
-- Improved the robustness of the locking architecture.
-- Reduced the risk of mechanical failure in critical features.
-- Supported a more reliable and manufacturable connector concept.
-- Strengthened the project through simulation-based decisions and team collaboration.
+- ✅ Improved the robustness of the locking architecture.
+- ✅ Reduced the risk of mechanical failure in critical features.
+- ✅ Supported a more reliable and manufacturable connector concept.
+- ✅ Strengthened the project through simulation-based decisions and team collaboration.
 
 ---
 
