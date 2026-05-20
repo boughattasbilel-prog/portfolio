@@ -7,12 +7,11 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Project Overview
 
-- **Objective:** Build a robust connector integration that supports reliable electrical interface, stable PCB mounting, and automotive-ready assembly behavior.
+- **Objectives:** Build a robust connector integration that supports reliable electrical interface, stable PCB mounting, and automotive-ready assembly behavior.
   - Maintain mechanical stability during assembly and service.
   - Support correct pin alignment and board interface.
   - Keep the design compatible with the intended soldering and mounting process.
   - Ensure the concept remains manufacturable in an automotive environment.
-- **Deliverable:** A validated connector integration concept presented in a legal-safe, NDA-friendly format.
 
 ---
 
