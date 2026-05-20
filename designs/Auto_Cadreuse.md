@@ -1,15 +1,4 @@
-# Confidential Auto-Cadreuse Project — ISSAT Sousse
-
-> **Note académique :** Ce case study est intentionnellement présenté dans une version portfolio publique. Aucune donnée industrielle propriétaire, numéro de pièce interne, dimension exacte confidentielle ou résultat de validation non publié n'est divulgué. Tous les visuels sont des croquis originaux dessinés à la main ou des représentations simplifiées créées indépendamment à des fins de portfolio.
-
----
-
-## Vue d'ensemble du projet
-
-**Établissement :** ISSAT Sousse — Institut Supérieur des Sciences Appliquées et de Technologie
-**Type :** Projet de Fin d'Études (PFE) — Licence Appliquée, Génie Mécanique
-**Intitulé :** *"Programmation et automatisation d'une machine de façonnage de fer à béton"*
-**Encadreur :** Mr. Louhichi Borhen
+# Auto-Cadreuse Project — ISSAT Sousse
 
 ### Objectif
 
