@@ -78,25 +78,12 @@ Sur le plan logiciel, la synchronisation des 3 moteurs en séquence — avance m
 
 ## Médias du projet
 
-> Tous les visuels ci-dessous sont des **croquis originaux dessinés à la main** ou des **représentations simplifiées** créées indépendamment à des fins de portfolio. Aucune donnée CAO confidentielle n'est montrée.
+![Machine Cross-Section](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/49ebede2-baa9-4a49-9b07-7529d2bc41d4.png)
+![Winding Machine White BG](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/7f82a85a-284b-4d30-b3b1-bcd8e9357c30.png)
+![Vue de dessus schématique](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/fc292dc6-056c-4816-a44e-2d1d9656c2fd.png)
+![Schéma cinématique simplifié](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/6beefa33-bb07-418d-8de0-858a8a78314c.png)
+![Organigramme du programme de contrôle](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/6fdd4efb-3482-42d7-b89f-85a62387f2aa.png)
 
-- Croquis de l'architecture globale de la machine (vue de dessus schématique)
-- Schéma cinématique simplifié — chaîne de transmission façonnage + avance
-- Esquisse des 4 sous-systèmes annotée (carcasse, façonnage, coupe, avance)
-- Organigramme simplifié du programme de contrôle (AutoMode / AutoProg / Manuel)
 
----
 
-## Ce qu'il ne faut PAS publier
 
-| ❌ Ne pas divulguer | ✅ Sécurisé à dire |
-|---|---|
-| Fichiers CAO internes ou plans détaillés | "Modélisé sous SolidWorks — 9 pièces fonctionnelles" |
-| Valeurs de dimensionnement exactes | "Dimensionnement arbre par RDM sous torsion + flexion" |
-| Code source complet du programme | "Programme Python V1.0 — 3 modes opérationnels" |
-| Résultats de calcul numériques détaillés | "Roulements sélectionnés et validés par calcul dynamique" |
-| Plans de fabrication ou cotes | "Conception respectant les normes NF EN 1992-1-1" |
-
----
-
-*Dernière mise à jour : Mai 2026 — Version portfolio*
