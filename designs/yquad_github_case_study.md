@@ -1,7 +1,6 @@
 # Confidential Y-Quad Connector Project
 
-This project focused on the mechanical integration of a Yamaichi Y-Quad automotive connector for a compact board-level application.
-
+This project focused on the mechanical integration of a connector automotive connector for a compact board-level application.
 The public version of this case study is intentionally sanitized to avoid revealing company-sensitive drawings, internal part numbers, exact dimensions, or unreleased validation data.
 
 ---
@@ -58,25 +57,8 @@ Grounding and board-level packaging also needed attention to avoid creating stre
 
 ## Project Media
 
-Use only sanitized visuals:
+**Redrawn sketch**
+![W2B connector sketch]
+(https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/5cb5aa54-531a-46c6-830b-825b6f2f0a96.png)
 
-- Simplified CAD renderings.
-- Redrawn sketches.
-- Cropped or blurred images.
-- Generic board/interface diagrams with removed labels.
 
----
-
-## Safe Wording
-
-> Confidential automotive connector integration project focused on improving board-level robustness, interface reliability, and manufacturability through mechanical design review and cross-functional collaboration.
-
-Avoid publishing exact CAD files, proprietary board layouts, unreleased drawings, internal customer names, and any detail that could identify the program or a specific confidential issue.
-
----
-
-## Material Naming
-
-It is usually fine to name common connector materials if they are not confidential on their own.
-
-For example, mentioning plastic housings, plated contacts, or standard automotive connector materials is generally acceptable as long as you do not expose proprietary grades or internal specifications.
