@@ -45,10 +45,10 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Result
 
-- Achieved a compact and practical connector integration concept.
-- Improved the clarity of assembly and board interface decisions.
-- Reduced the risk of geometry conflicts during implementation.
-- Supported a more manufacturable automotive connector solution.
+- ✅ Achieved a compact and practical connector integration concept.
+- ✅ Improved the clarity of assembly and board interface decisions.
+- ✅ Reduced the risk of geometry conflicts during implementation.
+- ✅ Supported a more manufacturable automotive connector solution.
 
 ---
 
