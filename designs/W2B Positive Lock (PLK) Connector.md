@@ -1,6 +1,6 @@
 # Confidential Y-Lock Connector Project
 
-This project focused on improving the mechanical robustness, assembly reliability, and manufacturability of a 30-position automotive connector.
+This project focused on improving the mechanical robustness, assembly reliability, and manufacturability of a W2B Positive Lock (PLK) Connector.
 The public version of this case study is intentionally sanitized to avoid revealing company-sensitive drawings, internal part numbers, exact dimensions, or unreleased test data.
 
 ---
@@ -12,7 +12,6 @@ The public version of this case study is intentionally sanitized to avoid reveal
   - Improve pin alignment and contact stability.
   - Support manufacturing and assembly robustness.
   - Validate the design with engineering analysis and cross-functional review.
-- **Deliverable:** A validated mechanical design update presented in a legal-safe, NDA-friendly format.
 
 ---
 
@@ -38,9 +37,9 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Engineering Challenge
 
-The main challenge was that the secondary locking features were vulnerable to breakage under stress.
-This required a design response that improved strength without creating new issues in assembly, cost, or manufacturability.
-Pin alignment and contact geometry also needed attention to make sure the mechanical design supported the electrical function.
+- The main challenge was that the secondary locking features were vulnerable to breakage under stress.
+- This required a design response that improved strength without creating new issues in assembly, cost, or manufacturability.
+- Pins alignment and contacts geometry also needed attention to make sure the mechanical design supported the electrical function.
 
 ---
 
@@ -55,23 +54,7 @@ Pin alignment and contact geometry also needed attention to make sure the mechan
 
 ## Project Media
 
-Use only sanitized visuals:
-- Simplified CAD renderings.
-- Redrawn sketches.
-- Cropped or blurred images.
-- Generic validation photos with removed labels.
+**Redrawn sketch**
+![W2B Positive Lock PLK Connector](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/44b37799-5933-4d1e-a926-8fbb7567e340.png)
 
----
 
-## Safe Wording
-
-> Confidential automotive connector project focused on improving locking robustness, pin interface reliability, and manufacturability through FEA-driven design optimization and cross-functional collaboration.
-
-Avoid publishing exact CAD files, proprietary test reports, unreleased drawings, internal customer names, and any detail that could identify the program or a specific confidential issue.
-
----
-
-## Material Naming
-
-It is usually fine to name the material if it is not confidential on its own.
-For example, saying **LCP** and **PBT 20%** is generally acceptable in a portfolio, as long as you do not expose proprietary grades, internal specifications, or company-specific formulation details.
