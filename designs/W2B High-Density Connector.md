@@ -1,4 +1,4 @@
-# Confidential Y-Quad Connector Project
+# W2B High-Density Connector Project
 
 This project focused on the mechanical integration of a connector automotive connector for a compact board-level application.
 The public version of this case study is intentionally sanitized to avoid revealing company-sensitive drawings, internal part numbers, exact dimensions, or unreleased validation data.
