@@ -7,12 +7,11 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Project Overview
 
-- **Objective:** Create a compact and robust mini-FAKRA integration that supports high-frequency automotive signals and reliable assembly.
+- **Objective:** Create a compact and robust Coaxial connector that supports high-frequency automotive signals and reliable assembly.
   - Preserve the coaxial interface geometry.
   - Support coding and orientation logic.
   - Fit within tight packaging constraints.
   - Maintain manufacturability for automotive use.
-- **Deliverable:** A validated mechanical design concept presented in a legal-safe, NDA-friendly format.
 
 ---
 
@@ -38,11 +37,9 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Engineering Challenge
 
-The main challenge was fitting a coaxial automotive connector into very limited space without losing mechanical clarity or robustness.
-
-The design also had to support coding and orientation correctly, because these features directly affect assembly error-proofing and serviceability.
-
-The compact nature of mini-FAKRA makes the packaging problem more sensitive than a standard connector layout.
+- The main challenge was fitting a coaxial automotive connector into very limited space without losing mechanical clarity or robustness.
+- The design also had to support coding and orientation correctly, because these features directly affect assembly error-proofing and serviceability.
+- The compact nature of mini-FAKRA makes the packaging problem more sensitive than a standard connector layout.
 
 ---
 
