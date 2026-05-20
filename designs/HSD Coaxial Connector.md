@@ -45,10 +45,10 @@ The public version of this case study is intentionally sanitized to avoid reveal
 
 ## Result
 
-- Achieved a compact and practical mini-FAKRA integration concept.
-- Improved the clarity of orientation and coding decisions.
-- Reduced the risk of packaging or assembly conflicts.
-- Supported a more robust automotive signal interface solution.
+- ✅ Achieved a compact and practical mini-FAKRA integration concept.
+- ✅ Improved the clarity of orientation and coding decisions.
+- ✅ Reduced the risk of packaging or assembly conflicts.
+- ✅ Supported a more robust automotive signal interface solution.
 
 ---
 
