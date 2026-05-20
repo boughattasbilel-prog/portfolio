@@ -1,19 +1,10 @@
-# Confidential MX-Dash Connector Project — Molex
+### W2B Dash Connector Project 
 
-> **NDA Notice:** This case study is intentionally sanitized. No proprietary drawings, internal part numbers, exact dimensions, unreleased test data, or customer-specific program details are disclosed. All visuals are original hand-drawn sketches or simplified representations created independently for portfolio purposes.
+Design and develop a compact **Wire-to-Board (W2B) high-density automotive connector** for dashboard integration — from concept phase through pre-series, meeting automotive qualification requirements.
 
 ---
 
-## Project Overview
-
-**Company:** Molex — Bièvres, France
-**Period:** April 2023 – October 2024
-**Role:** Product Design Engineer
-**Type:** Confidential automotive connector R&D project
-
 ### Objective
-
-Design and develop a compact **Wire-to-Board (W2B) high-density automotive connector** for dashboard integration — from concept phase through pre-series, meeting automotive qualification requirements.
 
 **Key targets:**
 - Achieve high pin density within a constrained PCB footprint
@@ -21,8 +12,6 @@ Design and develop a compact **Wire-to-Board (W2B) high-density automotive conne
 - Optimize housing geometry for plastic injection moldability (DFM)
 - Support integration in a complex dashboard harness environment
 - Validate the design through simulation, analysis, and cross-functional review
-
-**Deliverable:** A production-ready connector concept validated through FEA, Moldflow analysis, and multi-disciplinary design reviews.
 
 ---
 
@@ -34,7 +23,7 @@ Design and develop a compact **Wire-to-Board (W2B) high-density automotive conne
 - Owned the full 3D connector housing geometry from blank sketch to pre-series model
 - Designed the **primary and secondary locking features** — geometry, draft angles, and interference fit
 - Modeled complex multi-body assemblies (housing, TPA, CPA, pin interfaces) and managed all mating constraints
-- Produced **2D drawings with ISO GPS / GD&T** callouts — directly used in manufacturing reviews
+- Produced **2D drawings with GD&T** callouts — directly used in manufacturing reviews
 
 ### 📐 Tolerance Analysis (Direct Contribution)
 - Performed dimensional tolerance stack-ups on the mating interface to verify assemblability
@@ -47,7 +36,7 @@ Design and develop a compact **Wire-to-Board (W2B) high-density automotive conne
 - Identified stress concentration zones in the secondary lock that led to a geometry change
 
 ### 🏭 Moldflow & DFM (Direct Analysis)
-- Ran and interpreted Moldflow analyses on the housing — validated injection assumptions
+- Interpreted Moldflow analyses on the housing — validated injection assumptions
 - Identified weld line risk zones near the locking features and recommended gate relocation
 - Recommended DFM improvements: rib thickness adjustments, corner radii, wall uniformity
 - Coordinated with tooling supplier to implement DFM feedback before mold cut
@@ -96,39 +85,11 @@ Simultaneously, Moldflow showed a weld line forming directly across the locking 
 - ✅ Delivered a robust connector concept — validated by FEA and design review before pre-series
 - ✅ Eliminated locking fracture risk through geometry iteration driven by simulation
 - ✅ Moldflow-driven DFM changes adopted in final tooling — weld line repositioned successfully
-- ✅ ISO GPS / GD&T drawings released and used in manufacturing control plan
+- ✅ GD&T drawings released and used in manufacturing control plan
 - ✅ DFMEA risk items reduced from critical to acceptable through design action
 
 ---
 
 ## Project Media
 
-> All visuals below are **original hand-drawn sketches created independently** for portfolio purposes. No proprietary CAD data, internal drawings, or confidential geometry is shown.
-
-- Hand-drawn W2B connector sketch (original — portfolio safe)
-- Simplified schematic of locking feature concept (redrawn, no internal dimensions)
-- Generic assembly diagram (no part numbers, no customer references)
-
----
-
-## Safe Summary — LinkedIn / GitHub
-
-> *Confidential automotive W2B high-density connector project at Molex — full ownership of 3D housing design in NX Siemens, FEA-driven locking robustness optimization, Moldflow-guided DFM improvements, and ISO GPS / GD&T documentation for automotive pre-series qualification.*
-
----
-
-## What NOT to Publish
-
-| ❌ Do Not Disclose | ✅ Safe to Say |
-|---|---|
-| Exact CAD files or drawings | "I designed the housing in NX Siemens" |
-| Internal part numbers | "W2B high-density connector" |
-| Customer / program name | "Automotive dashboard application" |
-| Proprietary material grades | "LCP and PBT GF30 were evaluated" |
-| Unreleased test data | "FEA confirmed stress reduction after iteration" |
-| Internal DFMEA data | "I participated in DFMEA and proposed corrective actions" |
-| Tooling supplier names | "Coordinated with tooling supplier" |
-
----
-
-*Last updated: May 2026 — Portfolio version, NDA-compliant*
+![W2B Dash Connector](https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/288332ea-5e98-497a-ac1a-8e76eeaed9c3.png)
