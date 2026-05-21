@@ -1,4 +1,4 @@
-# Confidential Mini-FAKRA Connector Project
+# HSD Coaxial Connector Project
 
 This project focused on the mechanical design and packaging of a HSD Coaxial automotive connector for compact high-frequency signal transmission.
 The public version of this case study is intentionally sanitized to avoid revealing company-sensitive drawings, internal part numbers, exact dimensions, or unreleased validation data.
