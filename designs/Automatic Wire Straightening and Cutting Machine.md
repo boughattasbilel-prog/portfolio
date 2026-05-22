@@ -1,4 +1,4 @@
-# Auto-Cadreuse Project — ISSAT Sousse
+# Automatic Wire Straightening and Cutting Machine Project — ISSAT Sousse
 
 ### Objectif
 
