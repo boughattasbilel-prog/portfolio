@@ -1591,7 +1591,7 @@ function filterProjects(cat, btn) {
   function render() {
     var c = cards[n];
 
-    if (el("card-title")) el("card-title").innerHTML = "Fiche <span>" + c.title + "</span>";
+    if (el("card-title")) el("card-title").innerHTML = " <span>" + c.title + "</span>";
     if (el("card-img"))   el("card-img").src = c.img;
     if (el("card-name"))  el("card-name").textContent = c.name;
     if (el("card-role"))  el("card-role").textContent = c.role;
